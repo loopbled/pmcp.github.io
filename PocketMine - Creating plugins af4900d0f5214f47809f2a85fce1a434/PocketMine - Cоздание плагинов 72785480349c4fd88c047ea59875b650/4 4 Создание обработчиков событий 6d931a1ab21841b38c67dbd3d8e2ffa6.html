@@ -1,0 +1,778 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.4. Создание обработчиков событий</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6d931a1a-b218-41b3-8c67-dbd3d8e2ffa6" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">4.4. Создание обработчиков событий</h1><p class="page-description"></p></header><div class="page-body"><nav id="1b6f50de-dec0-4092-a35f-77ffe1dc39a3" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1d85e8c2-4f85-4a36-970b-329d37ce9e6a">Создание плагина обработчика событий</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4e8db714-b8b9-465f-8d57-8e6f77d2c90d">Шаги по созданию обработчика для конкретного события</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#320e6034-3915-4ef6-9100-510bfd115d7f">Ошибки, с которыми можно столкнуться, и их решения</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f499fecd-d002-4243-9802-d8c38c2a5c09"><strong>Проблема 1: Обработчик события не вызывается.</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1cb58136-2ffd-4136-beaa-a0040d704127"><strong>Проблема 2: Обработчик вызывается, но не работает как ожидалось.</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c9ecf24c-a173-4a20-a20b-28021f322e7e"><strong>Проблема 3: Ошибки в логах сервера.</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2b5483d1-1cb9-4d91-a76f-8d6b4c01b839"><strong>Проблема 4: Конфликт с другими плагинами.</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#88edcf90-810d-4cfe-858c-5b2e6dfe9e64"><strong>Проблема 5: Некорректные версии API.</strong></a></div></nav><p id="4534ba61-a972-4f21-a614-0d56bda320ee" class="">В этом разделе мы рассмотрим процесс создания обработчиков событий в плагинах для PocketMine-MP.</p><p id="0c090186-bc82-4fff-8222-23e58e91a816" class="">Для начала создадим простой плагин и добавим в него обработчик события. Предположим, у нас есть плагин с именем <code><strong>MyEventPlugin</strong></code>.</p><h2 id="1d85e8c2-4f85-4a36-970b-329d37ce9e6a" class="block-color-red_background">Создание плагина обработчика событий</h2><ol type="1" id="4390d93e-8af1-499d-ac60-1c76789e263f" class="numbered-list" start="1"><li><strong>Создание основного класса плагина:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6581c2b9-63b7-4564-a59c-a9c90d71772d" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents($this, $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="1d604a03-e05f-40fa-a024-bdad777f04b3" class="numbered-list" start="2"><li><strong>Создание обработчика события:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c5d7b6b-c617-4485-b8b3-04fc6990c11f" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventHandler.php
+
+namespace MyPlugin;
+
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\Listener;
+
+class MyEventHandler implements Listener {
+
+    public function onPlayerJoin(PlayerJoinEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $player-&gt;sendMessage(&quot;Добро пожаловать, {$player-&gt;getName()}!&quot;);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="e38ab3af-7391-4ffb-a714-5b5212df82cc" class="numbered-list" start="3"><li><strong>Подключение обработчика в основном классе плагина:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="58ad3d30-5dec-4cb0-a523-0ffd596df03e" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+</code></pre></li></ol><p id="bc23ac12-1def-4883-a41b-acd1d9a1916c" class="">Теперь, при присоединении игрока к серверу, он получит приветственное сообщение. Это простой пример, но он демонстрирует основы создания и использования обработчиков событий в PocketMine-MP. Вы можете расширять и изменять этот подход в соответствии с вашими потребностями и идеями для сервера.</p><h2 id="4e8db714-b8b9-465f-8d57-8e6f77d2c90d" class="block-color-red_background">Шаги по созданию обработчика для конкретного события</h2><p id="f79c7807-f99a-43ef-97d8-ffe30ee177b3" class="">Создание обработчика для конкретного события в PocketMine-MP включает в себя несколько шагов. Давайте рассмотрим эти шаги на примере обработчика события <code><strong>PlayerInteractEvent</strong></code>.</p><ol type="1" id="059b7c44-8f91-4383-ba2e-9064994deed6" class="numbered-list" start="1"><li><strong>Создание основного класса плагина:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0d037042-1360-4b4e-a36a-2fa62734c78e" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="7fa96f99-f25d-4592-abf1-8e7577ec73bf" class="numbered-list" start="2"><li><strong>Создание обработчика для события </strong><code><strong>PlayerInteractEvent</strong></code><strong>:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5ea94a74-bf5b-4d22-a46a-abb1a0748b0c" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventHandler.php
+
+namespace MyPlugin;
+
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\Listener;
+
+class MyEventHandler implements Listener {
+
+    public function onPlayerInteract(PlayerInteractEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $block = $event-&gt;getBlock();
+
+        $player-&gt;sendMessage(&quot;Вы взаимодействовали с блоком {$block-&gt;getName()} на координатах X: {$block-&gt;getX()}, Y: {$block-&gt;getY()}, Z: {$block-&gt;getZ()}&quot;);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="0ff513a9-abd9-432f-ae10-299cdbe0465a" class="numbered-list" start="3"><li><strong>Подключение обработчика в основном классе плагина:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fbed5cb-d6f4-4ccf-ba26-c5a1fe857484" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="cf09fb4d-0169-4780-aa14-d01e5fd6c165" class="numbered-list" start="4"><li><strong>Запуск события при взаимодействии игрока с блоком:</strong><ul id="ecceb228-048d-4cbf-9c2a-c8db7be559f2" class="bulleted-list"><li style="list-style-type:disc">Запустите сервер с установленным плагином.</li></ul><ul id="a91da80c-3cb1-4c65-bd49-c529c6720fda" class="bulleted-list"><li style="list-style-type:disc">Войдите в игру и взаимодействуйте с блоками.</li></ul><ul id="33cfb2d0-f9f4-46a0-bc17-20345203699a" class="bulleted-list"><li style="list-style-type:disc">Посмотрите в чат и убедитесь, что сообщение от обработчика события выводится при каждом взаимодействии.</li></ul></li></ol><p id="9122772b-48ea-44fe-9d92-e35fdcceef9d" class="">Эти шаги предоставляют базовый пример создания и использования обработчика события для события <code><strong>PlayerInteractEvent</strong></code>. Вы можете адаптировать этот подход для других событий и создавать более сложные функции ваших плагинов.</p><h2 id="320e6034-3915-4ef6-9100-510bfd115d7f" class="block-color-red_background">Ошибки, с которыми можно столкнуться, и их решения</h2><p id="c19dc794-0aad-4ee7-ae43-9695faecf361" class="">При разработке обработчиков событий для PocketMine-MP могут возникнуть различные ошибки. В этом разделе мы рассмотрим некоторые распространенные проблемы и способы их решения.</p><h3 id="f499fecd-d002-4243-9802-d8c38c2a5c09" class=""><strong>Проблема 1: Обработчик события не вызывается.</strong></h3><ul id="2872b34a-cfaf-482b-8318-139e3980c913" class="bulleted-list"><li style="list-style-type:disc"><strong>Решение:</strong><ul id="c4c70035-31ca-422e-b920-200766804844" class="bulleted-list"><li style="list-style-type:circle">Убедитесь, что в основном классе плагина правильно зарегистрирован обработчик:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f26c9899-996b-4a28-9d38-d2a07758efc1" class="code code-wrap"><code class="language-PHP">phpCopy code
+$this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+
+</code></pre></li></ul><ul id="95657418-0ce9-4e05-be49-fedd0b042eb9" class="bulleted-list"><li style="list-style-type:circle">Проверьте, что класс обработчика правильно реализует интерфейс <code><strong>Listener</strong></code>.</li></ul></li></ul><h3 id="1cb58136-2ffd-4136-beaa-a0040d704127" class=""><strong>Проблема 2: Обработчик вызывается, но не работает как ожидалось.</strong></h3><ul id="c7a5ceed-1d36-4463-9566-607b9d10031c" class="bulleted-list"><li style="list-style-type:disc"><strong>Решение:</strong><ul id="7389404e-dcae-41c8-baa9-a6b591ad3f5c" class="bulleted-list"><li style="list-style-type:circle">Проверьте, что вы используете правильное событие и его методы. Например, для события <code><strong>PlayerInteractEvent</strong></code>, удостоверьтесь, что вы используете метод <code><strong>onPlayerInteract</strong></code>.</li></ul><ul id="b0a8a8b5-6c29-4467-83f5-0325b924489b" class="bulleted-list"><li style="list-style-type:circle">Проверьте документацию PocketMine-MP для актуальных сведений о событии и его свойствах.</li></ul></li></ul><h3 id="c9ecf24c-a173-4a20-a20b-28021f322e7e" class=""><strong>Проблема 3: Ошибки в логах сервера.</strong></h3><ul id="82ad5581-0408-4d34-a68e-6d22e293f62c" class="bulleted-list"><li style="list-style-type:disc"><strong>Решение:</strong><ul id="be710724-b418-4e59-b984-d9ed25b6cb09" class="bulleted-list"><li style="list-style-type:circle">Проверьте логи сервера на наличие сообщений об ошибках и предупреждениях.</li></ul><ul id="aaeceaf0-a330-43a2-a06f-d497861bf653" class="bulleted-list"><li style="list-style-type:circle">Используйте информацию из логов для идентификации и устранения проблем.</li></ul></li></ul><h3 id="2b5483d1-1cb9-4d91-a76f-8d6b4c01b839" class=""><strong>Проблема 4: Конфликт с другими плагинами.</strong></h3><ul id="7711a1fd-a1d9-402a-b4c0-319e1ffc4c6a" class="bulleted-list"><li style="list-style-type:disc"><strong>Решение:</strong><ul id="e5b391ff-a628-4877-9407-75701ff43452" class="bulleted-list"><li style="list-style-type:circle">Отключите другие плагины поочередно, чтобы выявить, возникает ли проблема из-за конфликта.</li></ul><ul id="41483f01-d2b4-4895-a817-0495c7b8b170" class="bulleted-list"><li style="list-style-type:circle">Обновите все плагины до последних версий.</li></ul></li></ul><h3 id="88edcf90-810d-4cfe-858c-5b2e6dfe9e64" class=""><strong>Проблема 5: Некорректные версии API.</strong></h3><ul id="e72c8c6c-e6b4-4ae2-9f36-427af969ece9" class="bulleted-list"><li style="list-style-type:disc"><strong>Решение:</strong><ul id="30c111a6-3f21-41bb-abff-c49f15c72a7d" class="bulleted-list"><li style="list-style-type:circle">Убедитесь, что ваш плагин соответствует версии API, используемой сервером PocketMine-MP.</li></ul><ul id="29ba7413-bda9-4fea-80bd-d1b3298fd570" class="bulleted-list"><li style="list-style-type:circle">Проверьте документацию PocketMine-MP для совместимости API.</li></ul></li></ul><p id="9557f3f3-91b0-433a-ade4-91dd44a0c7d2" class="">Решение конкретной проблемы зависит от конкретной ситуации, поэтому важно внимательно анализировать сообщения об ошибках, использовать инструменты отладки и обращаться к ресурсам сообщества для получения помощи.</p><p id="123f86f5-c8df-4484-9024-22a298e5c46a" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

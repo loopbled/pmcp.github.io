@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>10.3. Публикация плагина</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0a98af1a-e175-4f7f-8bf5-c648619760b4" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">10.3. Публикация плагина</h1><p class="page-description"></p></header><div class="page-body"><nav id="391f9ca8-c6e5-48c9-b047-3c55f10c7222" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f619d704-bae4-45a9-831d-392059598245">Загрузка плагина на платформы, такие как Poggit</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dd459d6b-3cd0-47c0-9d51-ed4d3ccd4fa2"><strong>1. Выполнение всех требований:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#abc4cf8b-324b-4886-a152-a11c5f90144d"><strong>2. Подготовка плагина:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e30f8a6b-cbf8-4b76-9b43-00fdf2ff3f9c"><strong>3. Загрузка на Poggit:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4150533f-4e92-45cd-9036-ef013a75d601"><strong>4. Проверка и тестирование:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5e482061-6500-48dc-8cea-4e9712930eab"><strong>5. Обновления и поддержка:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#76940e20-cee9-4eae-8b16-1687d954a67d"><strong>6. Реклама и продвижение:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#12e07c0b-9648-44b2-8f7d-f90eedced126"><strong>7. Поддержка и взаимодействие:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cb9d73a9-e4ce-4292-ae80-2b0380d62230">Реклама и продвижение через социальные сети и форумы</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cc86af69-9030-43e5-80b2-d7df93bb12fb"><strong>1. Создание контента:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9ee87f70-855a-48c7-bcf6-a8567b35f7ce"><strong>2. Социальные сети:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0701d9ed-b5ed-4b37-a920-e4af59298d2e"><strong>3. Форумы и сообщества:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bac0dca5-52ef-4784-b1d4-541a616a0021"><strong>4. Партнерство и сотрудничество:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f020a49f-e178-4f08-b7d9-5caba15bb8b0"><strong>5. Продвижение через рекламные каналы:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6b4d4b81-8a7d-4f6a-9e4d-2984a4505e3d"><strong>6. Активность и вовлеченность:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e6b4bb6c-ad79-4b56-bf75-7327c1e96b4a"><strong>7. Мониторинг результатов:</strong></a></div></nav><h2 id="f619d704-bae4-45a9-831d-392059598245" class="block-color-red_background">Загрузка плагина на платформы, такие как Poggit</h2><p id="59259f84-9fc6-4e8a-bb1e-b991af28ed3e" class="">В данном разделе мы рассмотрим процесс загрузки вашего плагина на популярные платформы, такие как Poggit. Это важный этап, который позволяет вашему плагину стать доступным для широкой аудитории.</p><h3 id="dd459d6b-3cd0-47c0-9d51-ed4d3ccd4fa2" class=""><strong>1. Выполнение всех требований:</strong></h3><ul id="61b2ee78-2839-4052-a559-69e4e5d62be2" class="bulleted-list"><li style="list-style-type:disc"><strong>Аккаунт на платформе:</strong> Убедитесь, что у вас есть аккаунт на выбранной платформе (например, Poggit).</li></ul><ul id="a678d72a-954b-4406-8e73-1551111e1e54" class="bulleted-list"><li style="list-style-type:disc"><strong>Соблюдение правил:</strong> Познакомьтесь с правилами и требованиями загрузки плагинов на выбранной платформе.</li></ul><h3 id="abc4cf8b-324b-4886-a152-a11c5f90144d" class=""><strong>2. Подготовка плагина:</strong></h3><ul id="f3e3e21b-2a82-4916-aa6c-3946c36b56d4" class="bulleted-list"><li style="list-style-type:disc"><strong>Упаковка плагина:</strong> Создайте ZIP-архив, содержащий все необходимые файлы плагина.</li></ul><ul id="28181421-ef0e-444a-b9d9-07d54e34af45" class="bulleted-list"><li style="list-style-type:disc"><strong>Документация и лицензия:</strong> Удостоверьтесь, что ваш плагин снабжен подробной документацией и указана выбранная лицензия.</li></ul><h3 id="e30f8a6b-cbf8-4b76-9b43-00fdf2ff3f9c" class=""><strong>3. Загрузка на Poggit:</strong></h3><ul id="bad6f2be-6612-46e9-8787-a5effdc7aff5" class="bulleted-list"><li style="list-style-type:disc"><strong>Авторизация:</strong> Войдите в свой аккаунт на Poggit.</li></ul><ul id="e4f4c864-b362-4a65-bf83-9ed2b85b8cba" class="bulleted-list"><li style="list-style-type:disc"><strong>Выбор репозитория:</strong> Выберите репозиторий, в который вы хотите загрузить плагин.</li></ul><ul id="fcb119e9-bb1b-46b3-8859-22453d5d4b55" class="bulleted-list"><li style="list-style-type:disc"><strong>Загрузка:</strong> Загрузите ваш ZIP-файл с плагином на платформу.</li></ul><h3 id="4150533f-4e92-45cd-9036-ef013a75d601" class=""><strong>4. Проверка и тестирование:</strong></h3><ul id="e3bb8078-070a-46a5-a696-8d4db9212419" class="bulleted-list"><li style="list-style-type:disc"><strong>Автоматическая проверка:</strong> Некоторые платформы проводят автоматическую проверку плагина на соответствие требованиям.</li></ul><ul id="a8b1093d-a269-4b43-8dfa-bd04a92d24dc" class="bulleted-list"><li style="list-style-type:disc"><strong>Тестирование:</strong> Проверьте работоспособность плагина после загрузки.</li></ul><h3 id="5e482061-6500-48dc-8cea-4e9712930eab" class=""><strong>5. Обновления и поддержка:</strong></h3><ul id="2761b11c-cf98-4c03-8cc2-64c1e6a770fc" class="bulleted-list"><li style="list-style-type:disc"><strong>Регулярные обновления:</strong> Поддерживайте регулярные обновления плагина, исправляйте ошибки и добавляйте новые функции.</li></ul><ul id="9a5cb73f-1d96-44a1-8129-6df2cc093215" class="bulleted-list"><li style="list-style-type:disc"><strong>Ответы на обратную связь:</strong> Внимательно относитесь к обратной связи от пользователей и вносите необходимые изменения.</li></ul><h3 id="76940e20-cee9-4eae-8b16-1687d954a67d" class=""><strong>6. Реклама и продвижение:</strong></h3><ul id="dd1fade8-a8eb-49a9-bccf-7ad78c29aad9" class="bulleted-list"><li style="list-style-type:disc"><strong>Описание и изображения:</strong> Создайте привлекательное описание и добавьте изображения для привлечения внимания пользователей.</li></ul><ul id="d8c16c41-d5c5-41f1-87d7-d8a1bca2243b" class="bulleted-list"><li style="list-style-type:disc"><strong>Реклама в сообществе:</strong> Расскажите о своем плагине в соответствующих сообществах и форумах.</li></ul><h3 id="12e07c0b-9648-44b2-8f7d-f90eedced126" class=""><strong>7. Поддержка и взаимодействие:</strong></h3><ul id="3184f4c9-7b67-41ce-a211-a94d0725b727" class="bulleted-list"><li style="list-style-type:disc"><strong>Форумы и общение:</strong> Участвуйте в форумах, отвечайте на вопросы пользователей и поддерживайте активное общение.</li></ul><ul id="726d1ced-2f4c-40c5-97ca-b051b08614f2" class="bulleted-list"><li style="list-style-type:disc"><strong>Создание сообщества:</strong> Разработайте свое сообщество для обмена опытом и поддержки пользователей.</li></ul><p id="f19be4b6-7c79-4738-a32b-fdf62e9cee6f" class="">Успешная загрузка и поддержка плагина на платформах – это ключевой момент для привлечения внимания и удовлетворения потребностей пользователей.</p><h2 id="cb9d73a9-e4ce-4292-ae80-2b0380d62230" class="block-color-red_background">Реклама и продвижение через социальные сети и форумы</h2><p id="402da4ed-3879-4db1-b524-143615d238f5" class="">В данном разделе мы рассмотрим методы эффективной рекламы и продвижения вашего плагина с использованием социальных сетей и форумов.</p><h3 id="cc86af69-9030-43e5-80b2-d7df93bb12fb" class=""><strong>1. Создание контента:</strong></h3><ul id="33c3e6e3-38c5-48a0-a24d-34b200c7e2ea" class="bulleted-list"><li style="list-style-type:disc"><strong>Графический материал:</strong> Подготовьте привлекательные изображения, баннеры и скриншоты, демонстрирующие функционал плагина.</li></ul><ul id="0876ba0e-a88d-402d-bda6-68230479fc77" class="bulleted-list"><li style="list-style-type:disc"><strong>Видео-презентация:</strong> Если возможно, создайте краткое видео, демонстрирующее возможности и преимущества вашего плагина.</li></ul><h3 id="9ee87f70-855a-48c7-bcf6-a8567b35f7ce" class=""><strong>2. Социальные сети:</strong></h3><ul id="8aaef959-92fc-4222-8c9d-8dee2bfe72ed" class="bulleted-list"><li style="list-style-type:disc"><strong>Создание страницы:</strong> Заведите страницу вашего плагина на популярных социальных сетях, таких как Twitter, Facebook, Instagram.</li></ul><ul id="8136e00b-e6e8-4f98-9980-f0d9cea768a3" class="bulleted-list"><li style="list-style-type:disc"><strong>Регулярные обновления:</strong> Публикуйте регулярные обновления, новости и интересные факты о вашем плагине.</li></ul><ul id="1acd8250-c3dc-417d-8170-a1eb580d0e4c" class="bulleted-list"><li style="list-style-type:disc"><strong>Взаимодействие с подписчиками:</strong> Отвечайте на комментарии, вопросы и предложения от подписчиков.</li></ul><h3 id="0701d9ed-b5ed-4b37-a920-e4af59298d2e" class=""><strong>3. Форумы и сообщества:</strong></h3><ul id="2bb6f517-e743-45da-918a-e61a6e46ece8" class="bulleted-list"><li style="list-style-type:disc"><strong>Участие в форумах:</strong> Активно участвуйте в форумах, связанных с Minecraft и PocketMine-MP, представляя ваш плагин.</li></ul><ul id="f2dfcfc7-9cba-42a2-a090-a173d6ef98c8" class="bulleted-list"><li style="list-style-type:disc"><strong>Создание темы:</strong> Создайте отдельную тему для вашего плагина, где подробно опишите его функционал и возможности.</li></ul><ul id="ce55c049-e1fc-4b63-9fd6-02d1fea5ba6a" class="bulleted-list"><li style="list-style-type:disc"><strong>Обратная связь:</strong> Внимательно слушайте обратную связь от участников сообщества и внедряйте предложения в развитие плагина.</li></ul><h3 id="bac0dca5-52ef-4784-b1d4-541a616a0021" class=""><strong>4. Партнерство и сотрудничество:</strong></h3><ul id="0903142a-84ea-4c83-848e-e7deab95a740" class="bulleted-list"><li style="list-style-type:disc"><strong>Поиск партнеров:</strong> Рассмотрите возможность сотрудничества с другими разработчиками или плагинами для взаимной поддержки.</li></ul><ul id="405895a2-2c51-4866-9b4b-f3ad2ebdff35" class="bulleted-list"><li style="list-style-type:disc"><strong>Участие в событиях:</strong> Примите участие в событиях и конференциях, чтобы расширить свою сеть контактов.</li></ul><h3 id="f020a49f-e178-4f08-b7d9-5caba15bb8b0" class=""><strong>5. Продвижение через рекламные каналы:</strong></h3><ul id="be9e35b6-da3f-4fcc-a8ef-b28ea6a92f75" class="bulleted-list"><li style="list-style-type:disc"><strong>Платные рекламные кампании:</strong> Используйте платные рекламные кампании на платформах, таких как Google AdWords или социальных сетях.</li></ul><ul id="0eb3fce9-eec7-4f61-a1a7-c96e13b14ad2" class="bulleted-list"><li style="list-style-type:disc"><strong>Реклама в Minecraft-сообществе:</strong> Покажите свой плагин на специализированных ресурсах Minecraft и PocketMine-MP.</li></ul><h3 id="6b4d4b81-8a7d-4f6a-9e4d-2984a4505e3d" class=""><strong>6. Активность и вовлеченность:</strong></h3><ul id="775ba2a6-b8ea-4afb-a052-a6d857d317e8" class="bulleted-list"><li style="list-style-type:disc"><strong>Проведение конкурсов и акций:</strong> Организуйте конкурсы или акции для привлечения внимания новых пользователей.</li></ul><ul id="af77424e-6087-494a-8c2a-b6e0637d9cdb" class="bulleted-list"><li style="list-style-type:disc"><strong>Активное участие в дискуссиях:</strong> Принимайте активное участие в обсуждениях, высказывайте свое мнение, делясь опытом.</li></ul><h3 id="e6b4bb6c-ad79-4b56-bf75-7327c1e96b4a" class=""><strong>7. Мониторинг результатов:</strong></h3><ul id="15944f4d-9213-40a2-8d66-61e3c23cd0b7" class="bulleted-list"><li style="list-style-type:disc"><strong>Аналитика и статистика:</strong> Используйте аналитические инструменты для отслеживания эффективности рекламы и продвижения.</li></ul><ul id="e0ba3153-a998-4128-88d4-dd4b0e28bc6e" class="bulleted-list"><li style="list-style-type:disc"><strong>Коррекция стратегии:</strong> Основываясь на полученных данных, корректируйте свою стратегию рекламы для достижения лучших результатов.</li></ul><p id="0b47bb2c-9a86-4b03-8fc6-8ce34f3e8d52" class="">Эффективная реклама и продвижение сделают ваш плагин более заметным в Minecraft-сообществе, привлекут новых пользователей и создадут успешное окружение для вашего проекта.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

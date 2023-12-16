@@ -1,0 +1,815 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>5.1. Работа с командами</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b29cb0e7-b985-47c5-b4c9-82df1663baa4" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">5.1. Работа с командами</h1><p class="page-description"></p></header><div class="page-body"><nav id="158c5b80-133d-4ace-bcbc-bad14dcce709" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#89bc4198-7249-4973-820e-efb45e97b716">Простая команда</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#721eeb2b-2be5-4ed4-ad5d-91007fd08dc1">Введение в систему команд в Minecraft</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#42553eb7-1a25-4617-aaba-f914eb61c8b4"><strong>Основные элементы команд:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e3f8823f-f1bf-46cd-9b9f-5030f4a7cac4"><strong>Пример использования команд в Minecraft:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f1ee4ef4-2fbf-4e18-97f6-c5f34b89dcbf"><strong>Работа с командами в PocketMine-MP:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0b4bca0b-1096-4c73-ab57-47fe628a573a">Регистрация базовых команд</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d801d759-c0ce-4f38-8d31-5b330d45cd57"><strong>Шаг 1: Создание класса команды</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2aa490b3-eae9-46a7-a3cc-150e527c37cc"><strong>Шаг 2: Регистрация команды в основном классе плагина</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bada88ce-931b-4e85-9e19-71fbae17fea5"><strong>Шаг 3: Использование команды в игре</strong></a></div></nav><p id="3400b675-9bf8-423d-a948-6d948cb6d365" class="">Работа с командами предоставляет возможность добавлять пользовательские команды в ваш плагин для PocketMine-MP. В этом модуле мы рассмотрим основы создания и обработки команд.</p><h2 id="89bc4198-7249-4973-820e-efb45e97b716" class="block-color-red_background">Простая команда</h2><p id="061fb0f7-edee-4a3c-99a2-6cfee2c76815" class=""><strong>Создание простой команды:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2f22007d-c1f4-4e68-bfee-b4d24a4c566a" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyCommandPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+class MyCommandPlugin extends PluginBase {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+    }
+
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
+        if ($command-&gt;getName() === &quot;hello&quot;) {
+            $sender-&gt;sendMessage(&quot;Привет, {$sender-&gt;getName()}!&quot;);
+            return true;
+        }
+        return false;
+    }
+}
+
+</code></pre><p id="f61a2584-abca-4783-8fcc-a56366360498" class=""><strong>Регистрация команды в основном классе плагина:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0dffc7e3-1503-418e-b58f-037313a4b5b3" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyCommandPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+class MyCommandPlugin extends PluginBase {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getCommandMap()-&gt;register(&quot;hello&quot;, new MyCommand());
+    }
+}
+
+</code></pre><p id="a89a5088-8a11-401e-a116-bcfcc2bbda8d" class=""><strong>Использование команды в игре:</strong></p><ul id="0806e40f-955f-4aa7-9bb0-9c013514c743" class="bulleted-list"><li style="list-style-type:disc">Запустите сервер с установленным плагином.</li></ul><ul id="67b06e1d-a062-4c8c-8cb1-801a06930426" class="bulleted-list"><li style="list-style-type:disc">В игре введите команду <code><strong>/hello</strong></code>.</li></ul><p id="6f0347f2-89af-4098-b17f-4a2e15c2c6d3" class="">Это всего лишь простой пример создания команды. Ваш плагин может иметь более сложные команды с дополнительными параметрами и функциональностью.</p><p id="056d04bd-9ac7-401d-a8f7-a57133191b17" class=""><strong>Передача аргументов команде:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c705157-4e22-40e2-83be-c9d6d347b386" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyCommandPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+class MyCommandPlugin extends PluginBase {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+        $this-&gt;getServer()-&gt;getCommandMap()-&gt;register(&quot;greet&quot;, new GreetCommand());
+    }
+}
+
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6d76f04b-282b-496a-be59-87a659ccade0" class="code code-wrap"><code class="language-PHP">phpCopy code
+// GreetCommand.php
+
+namespace MyPlugin\command;
+
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use pocketmine\Player;
+
+class GreetCommand extends Command {
+
+    public function __construct() {
+        parent::__construct(&quot;greet&quot;, &quot;Приветствие игрока&quot;, &quot;/greet &lt;игрок&gt;&quot;);
+        $this-&gt;setPermission(&quot;myplugin.command.greet&quot;);
+    }
+
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        if (!$this-&gt;testPermission($sender)) {
+            return false;
+        }
+
+        if (empty($args)) {
+            $sender-&gt;sendMessage(&quot;Используйте: /greet &lt;игрок&gt;&quot;);
+            return false;
+        }
+
+        $player = $sender-&gt;getServer()-&gt;getPlayer($args[0]);
+        if ($player instanceof Player) {
+            $sender-&gt;sendMessage(&quot;Привет, {$player-&gt;getName()}!&quot;);
+        } else {
+            $sender-&gt;sendMessage(&quot;Игрок {$args[0]} не найден.&quot;);
+        }
+
+        return true;
+    }
+}
+
+</code></pre><p id="2ef4f4de-8d39-4aae-8677-a1d7c1f688ee" class="">Этот пример демонстрирует команду <code><strong>/greet</strong></code>, которая приветствует указанного игрока.</p><p id="7506b346-7246-4542-9171-544e0b139655" class="">Работа с командами открывает множество возможностей для управления плагином и общения с игроками на сервере. Вы можете адаптировать приведенные примеры для создания более сложных команд и функций в своем плагине.</p><h2 id="721eeb2b-2be5-4ed4-ad5d-91007fd08dc1" class="block-color-red_background">Введение в систему команд в Minecraft</h2><p id="16ea4343-1655-4a11-98e2-38eadcdeac0f" class="">В Minecraft команды представляют собой мощный инструмент для взаимодействия с игровым миром и управления сервером. Команды выполняются через чат или консоль сервера и предоставляют разнообразные возможности, включая телепортацию, выдачу предметов, управление временем суток и многое другое.</p><h3 id="42553eb7-1a25-4617-aaba-f914eb61c8b4" class=""><strong>Основные элементы команд:</strong></h3><ol type="1" id="2bda00b7-3270-46d4-8b00-06eaa838fcb9" class="numbered-list" start="1"><li><strong>Команды:</strong><ul id="b5380aa6-f61f-468d-8f7a-fa08dfd07c34" class="bulleted-list"><li style="list-style-type:disc">Команды начинаются с косой черты (/).</li></ul><ul id="c5383980-fa13-40c6-b396-b6b598227f88" class="bulleted-list"><li style="list-style-type:disc">Пример: <code>/tp Player1 Player2</code> - телепортирует игрока Player1 к игроку Player2.</li></ul></li></ol><ol type="1" id="96c2de74-b628-4d2d-99b7-4deefde8e8ac" class="numbered-list" start="2"><li><strong>Аргументы:</strong><ul id="b44805b2-3d6b-4205-864c-002e86d4ba68" class="bulleted-list"><li style="list-style-type:disc">Команды могут содержать аргументы, представляющие собой данные или параметры.</li></ul><ul id="922a4312-b3fa-474e-a15c-6bc575d31798" class="bulleted-list"><li style="list-style-type:disc">Пример: <code>/give Player1 diamond 64</code> - выдает игроку Player1 64 алмаза.</li></ul></li></ol><ol type="1" id="b46c4f3d-be3d-45b0-9ed9-b3f11d19b668" class="numbered-list" start="3"><li><strong>Параметры:</strong><ul id="d81bee48-f1e2-44be-922a-f1cb58537f70" class="bulleted-list"><li style="list-style-type:disc">Некоторые команды имеют дополнительные параметры для настройки их работы.</li></ul><ul id="70a42236-67ca-4698-b5cd-12aaea2f2589" class="bulleted-list"><li style="list-style-type:disc">Пример: <code>/time set day</code> - устанавливает время суток на день.</li></ul></li></ol><h3 id="e3f8823f-f1bf-46cd-9b9f-5030f4a7cac4" class=""><strong>Пример использования команд в Minecraft:</strong></h3><ol type="1" id="b1a5f175-009d-444e-aefe-bcc4e9083a22" class="numbered-list" start="1"><li><strong>Телепортация:</strong><ul id="41c23cef-1af9-400c-8f15-ce38c4674915" class="bulleted-list"><li style="list-style-type:disc"><code>/tp Player1 Player2</code> - телепортирует игрока Player1 к игроку Player2.</li></ul></li></ol><ol type="1" id="4291db95-0527-43ca-8b35-8a59f9defc54" class="numbered-list" start="2"><li><strong>Выдача предметов:</strong><ul id="c2d6a8f4-24a9-4708-9f8a-814548e338ad" class="bulleted-list"><li style="list-style-type:disc"><code>/give Player1 diamond 64</code> - выдает игроку Player1 64 алмаза.</li></ul></li></ol><ol type="1" id="f84585b2-4038-42d0-aaaf-3acf0b2cf33d" class="numbered-list" start="3"><li><strong>Управление временем:</strong><ul id="61407b09-78c2-4f6e-81dd-13be32b5f541" class="bulleted-list"><li style="list-style-type:disc"><code>/time set day</code> - устанавливает время суток на день.</li></ul></li></ol><ol type="1" id="57c9ef66-bece-452e-b5f1-1d90c204a406" class="numbered-list" start="4"><li><strong>Изменение игрового режима:</strong><ul id="73c05c4c-4390-4187-a9d3-b28585d701be" class="bulleted-list"><li style="list-style-type:disc"><code>/gamemode creative</code> - устанавливает игровой режим Creative.</li></ul></li></ol><ol type="1" id="d4572eea-3108-488e-89f6-e6997583ce85" class="numbered-list" start="5"><li><strong>Изменение погоды:</strong><ul id="1e009a3d-bca8-476e-8791-ccfa5b09739b" class="bulleted-list"><li style="list-style-type:disc"><code>/weather clear</code> - устанавливает ясную погоду.</li></ul></li></ol><h3 id="f1ee4ef4-2fbf-4e18-97f6-c5f34b89dcbf" class=""><strong>Работа с командами в PocketMine-MP:</strong></h3><p id="a097fb13-55dd-4ead-8d0c-0ebaa10b1812" class="">В PocketMine-MP вы можете создавать свои собственные команды с помощью плагинов. Это позволяет расширить функциональность сервера и предоставить игрокам уникальные возможности. В следующих разделах мы рассмотрим создание и управление командами в PocketMine-MP.</p><h2 id="0b4bca0b-1096-4c73-ab57-47fe628a573a" class="block-color-red_background">Регистрация базовых команд</h2><p id="cb5cbe63-2815-45fb-bae8-c14be0e34f3c" class="">Регистрация базовых команд в PocketMine-MP предоставляет удобный способ взаимодействия с вашим плагином. В этом разделе мы рассмотрим процесс создания и регистрации простых команд.</p><h3 id="d801d759-c0ce-4f38-8d31-5b330d45cd57" class=""><strong>Шаг 1: Создание класса команды</strong></h3><p id="5859591c-7bf4-43ca-a624-839a4175420d" class="">Для каждой команды необходимо создать соответствующий класс. Например, рассмотрим команду <code><strong>/hello</strong></code>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ee616d40-292f-4fd4-8ee8-08df69dc1001" class="code code-wrap"><code class="language-PHP">phpCopy code
+// HelloCommand.php
+
+namespace MyPlugin\command;
+
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+class HelloCommand extends Command {
+
+    public function __construct() {
+        parent::__construct(&quot;hello&quot;, &quot;Приветствие от плагина&quot;, &quot;/hello&quot;);
+    }
+
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        $sender-&gt;sendMessage(&quot;Привет, {$sender-&gt;getName()}!&quot;);
+        return true;
+    }
+}
+
+</code></pre><h3 id="2aa490b3-eae9-46a7-a3cc-150e527c37cc" class=""><strong>Шаг 2: Регистрация команды в основном классе плагина</strong></h3><p id="1c69ec78-a7a8-42be-87eb-042865257e64" class="">Теперь мы должны зарегистрировать нашу команду в основном классе плагина:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="14f45ce6-6940-49ef-8054-1b1fa2990f10" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
+use MyPlugin\command\HelloCommand;
+
+class MyPlugin extends PluginBase {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Плагин успешно включен!&quot;);
+
+        // Регистрация команды
+        $this-&gt;getServer()-&gt;getCommandMap()-&gt;register(&quot;hello&quot;, new HelloCommand());
+    }
+}
+
+</code></pre><h3 id="bada88ce-931b-4e85-9e19-71fbae17fea5" class=""><strong>Шаг 3: Использование команды в игре</strong></h3><p id="1b1606fd-9924-42ef-922e-2d79bbb9c48f" class="">Теперь игроки могут использовать команду <code><strong>/hello</strong></code> для получения приветствия от плагина.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="55728a22-657b-4e9f-9581-c1670cf6810c" class="code code-wrap"><code class="language-Shell">bashCopy code
+# Ввод в чате игры
+/hello
+
+</code></pre><p id="1bbcd8f5-9495-4991-8e82-f52bf16492b6" class="">Это лишь простой пример. Вы можете создавать более сложные команды с дополнительными параметрами и функциональностью в соответствии с потребностями вашего плагина.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

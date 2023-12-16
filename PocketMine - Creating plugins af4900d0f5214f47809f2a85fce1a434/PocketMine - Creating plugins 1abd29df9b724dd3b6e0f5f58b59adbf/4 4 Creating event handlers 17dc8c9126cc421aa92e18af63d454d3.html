@@ -1,0 +1,787 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.4 Creating event handlers</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="17dc8c91-26cc-421a-a92e-18af63d454d3" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">4.4 Creating event handlers</h1><p class="page-description"></p></header><div class="page-body"><nav id="9d4da202-36ae-4ac0-ab8f-a569f3715139" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#17ccb215-38c9-49bd-8bc5-4360396f857d">Creating an event handler plugin</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f9019c5d-65bd-4455-b938-3ec545522916">Steps to create a handler for a specific event</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7dff3e7d-2c14-4082-bee8-1904ecf91185">Errors that can be encountered and their solutions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7ce42da7-3e2b-4d5b-8c47-6d3f438b0257">*Problem 1: Event handler is not called.</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#de9a8518-c846-4a75-86af-2b1beeb04c1e"><strong>Problem 2: The handler is called but does not work as expected.</strong> **</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4524c9ae-e23a-4e20-8ad1-aef04d1671eb">*Problem 3: Errors in server logs.</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cb56a009-d291-4b2f-8ef8-7623304f8142">*Problem 4: Conflict with other plugins.</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#831518eb-3f98-4895-b523-5065543707d6"><strong>Problem 5: Incorrect API versions.</strong> <strong>Solution:</strong></a></div></nav><p id="92ff0308-ad6c-459d-995e-cd69944ce8e1" class="">In this section we will consider the process of creating event handlers in plug-ins for PocketMine-MP.</p><p id="efe0f1b4-1a8b-455c-bc83-fa09de66a8d8" class="">First, let&#x27;s create a simple plugin and add an event handler to it. Let&#x27;s assume we have a plugin named <code><strong>MyEventPlugin</strong></code>.</p><h2 id="17ccb215-38c9-49bd-8bc5-4360396f857d" class="">Creating an event handler plugin</h2><ol type="1" id="34507507-fa5b-4f21-b5ea-f9a5d0e18ca8" class="numbered-list" start="1"><li><strong>Create the main class of the plugin:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="47bd4e47-9a01-4b27-9ebb-e21da74d1147" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\\plugin\\PluginBase;
+use pocketmine\\event\\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Plugin successfully enabled!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents($this, $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="86bd60de-502e-4db2-92c7-80b0e23eee60" class="numbered-list" start="2"><li><strong>Create an event handler:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7fc73626-9682-4615-b246-f23a5573482e" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventHandler.php
+
+namespace MyPlugin;
+
+use pocketmine\\event\\player\\PlayerJoinEvent;
+use pocketmine\\event\\Listener;
+
+class MyEventHandler implements Listener {
+
+    public function onPlayerJoin(PlayerJoinEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $player-&gt;sendMessage(&quot;Welcome, {$player-&gt;getName()}!&quot;
+    }
+}
+
+```
+
+</code></pre></li></ol><ol type="1" id="9f165ef2-c23d-498b-9e66-7812f189975f" class="numbered-list" start="3"><li><strong>Wiring the handler in the main plugin class:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="210c9535-cde7-4e91-b8bb-368296d9b81b" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\\plugin\\PluginBase;
+use pocketmine\\event\\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Plugin successfully enabled!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+```
+
+
+</code></pre></li></ol><p id="63c5e428-6c69-436d-a8c5-84bda72c2b65" class="">Now, when a player joins the server, they will receive a welcome message. This is a simple example, but it demonstrates the basics of creating and using event handlers in PocketMine-MP. You can extend and modify this approach to suit your needs and ideas for the server.</p><h2 id="f9019c5d-65bd-4455-b938-3ec545522916" class="">Steps to create a handler for a specific event</h2><p id="5ae49797-c131-41fd-bb67-f32c8391e549" class="">Creating a handler for a specific event in PocketMine-MP involves several steps. Let&#x27;s look at these steps using the <code><strong>PlayerInteractEvent</strong></code> event handler as an example.</p><ol type="1" id="43beb6d2-130d-467e-9ce0-11ce1dc69dc2" class="numbered-list" start="1"><li><strong>Create the main plugin class:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a3a1f891-9f9e-4538-8007-b03c3251b44a" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\\plugin\\PluginBase;
+use pocketmine\\event\\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Plugin successfully enabled!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="b55de7aa-3864-430e-b193-7bb685664620" class="numbered-list" start="2"><li><strong>Create a handler for the </strong><code><strong>PlayerInteractEvent</strong></code><strong> event:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="de32e7a8-a9fd-4c78-aa62-e9504fd72028" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventHandler.php
+
+namespace MyPlugin;
+
+use pocketmine\\event\\player\\PlayerInteractEvent;
+use pocketmine\\event\\Listener;
+
+class MyEventHandler implements Listener {
+
+    public function onPlayerInteract(PlayerInteractEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $block = $event-&gt;getBlock();
+
+        $player-&gt;sendMessage(&quot;You interacted with block {$block-&gt;getName()} at X coordinates: {$block-&gt;getX()}, Y: {$block-&gt;getY()}, Z: {$block-&gt;getZ()}&quot;);
+    }
+}
+
+```
+
+</code></pre></li></ol><ol type="1" id="54d92668-b77f-4f7d-898c-6f1dc41bafb6" class="numbered-list" start="3"><li><strong>Include the handler in the main plugin class:</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ec04121f-4fc7-4ea2-87fe-bccc98774a5e" class="code code-wrap"><code class="language-PHP">phpCopy code
+// MyEventPlugin.php
+
+namespace MyPlugin;
+
+use pocketmine\\plugin\\PluginBase;
+use pocketmine\\event\\Listener;
+
+class MyEventPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getLogger()-&gt;info(&quot;Plugin successfully enabled!&quot;);
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+    }
+}
+
+```
+
+</code></pre></li></ol><ol type="1" id="77977578-c86c-4420-9d91-3b14d2712979" class="numbered-list" start="4"><li><strong>Firing an event when a player interacts with a block:</strong><ul id="44ae50ee-ef45-4777-8514-463a4e5ec6db" class="bulleted-list"><li style="list-style-type:disc">Start the server with the plugin installed.</li></ul><ul id="7d4b3478-e6d9-4193-8c8c-f03bbc5aa75a" class="bulleted-list"><li style="list-style-type:disc">Log into the game and interact with blocks.</li></ul><ul id="5f4ef026-e37b-4e74-8036-e9853bd67cc0" class="bulleted-list"><li style="list-style-type:disc">Look at the chat and make sure that a message from the event handler is displayed each time you interact.</li></ul></li></ol><p id="2f737162-b582-4d1f-8131-6aa3b27b1b51" class="">These steps provide a basic example of creating and using an event handler for the <code><strong>PlayerInteractEvent</strong></code> event. You can adapt this approach for other events and create more complex features for your plugins.</p><h2 id="7dff3e7d-2c14-4082-bee8-1904ecf91185" class="">Errors that can be encountered and their solutions</h2><p id="3007906d-94ec-40b8-95fa-0dcb026f7ed5" class="">When developing event handlers for PocketMine-MP, various errors can occur. In this section we will consider some common problems and how to solve them.</p><h3 id="7ce42da7-3e2b-4d5b-8c47-6d3f438b0257" class="">*Problem 1: Event handler is not called.</h3><ul id="12c037ed-4d3d-40b8-9049-b08a2d91ad7c" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution:</strong><ul id="e8be1635-2d0d-443a-b8f5-66b5977af8c9" class="bulleted-list"><li style="list-style-type:circle">Make sure the handler is properly registered in the main plugin class:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a8b55631-1838-418a-b1fb-ea8bb8a95e6a" class="code code-wrap"><code class="language-PHP">phpCopy code
+$this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents(new MyEventHandler(), $this);
+
+</code></pre></li></ul><ul id="bf02e44d-2ef8-4fe5-8a02-4c7269c002be" class="bulleted-list"><li style="list-style-type:circle">Check that the handler class correctly implements the <code><strong>Listener</strong></code> interface.</li></ul></li></ul><h3 id="de9a8518-c846-4a75-86af-2b1beeb04c1e" class=""><strong>Problem 2: The handler is called but does not work as expected.</strong> **</h3><ul id="5dd507c1-810e-431f-8696-ee3b69aacd51" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution:</strong><ul id="847ae918-649e-4a87-bb58-1e45e3756ca1" class="bulleted-list"><li style="list-style-type:circle">Verify that you are using the correct event and its methods. For example, for the <code><strong>PlayerInteractEvent</strong></code> event, make sure you are using the <code><strong>onPlayerInteract</strong></code> method.</li></ul><ul id="b8bd30a7-eecb-43a7-a983-7880fbdba3ac" class="bulleted-list"><li style="list-style-type:circle">Check the PocketMine-MP documentation for up-to-date information about the event and its properties.</li></ul></li></ul><h3 id="4524c9ae-e23a-4e20-8ad1-aef04d1671eb" class="">*Problem 3: Errors in server logs.</h3><ul id="4982c011-655a-4a80-be72-e3950aa48b7b" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution:</strong><ul id="91913eaa-7a38-45f9-97eb-e30c2ecbfb98" class="bulleted-list"><li style="list-style-type:circle">Check the server logs for error and warning messages.</li></ul><ul id="5c3415eb-49a7-474d-8047-49aba5b94a18" class="bulleted-list"><li style="list-style-type:circle">Use the information from the logs to identify and troubleshoot problems.</li></ul></li></ul><h3 id="cb56a009-d291-4b2f-8ef8-7623304f8142" class="">*Problem 4: Conflict with other plugins.</h3><ul id="577d888b-acf5-4f26-b0ed-90cb68821ed7" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution:</strong><ul id="d42e87e0-ef84-4657-ac57-a272825a45c6" class="bulleted-list"><li style="list-style-type:circle">Disable other plugins one by one to identify if the problem is occurring due to a conflict.</li></ul><ul id="ad3e42df-6922-455e-938c-011ed826fd5c" class="bulleted-list"><li style="list-style-type:circle">Update all plugins to the latest versions.</li></ul></li></ul><h3 id="831518eb-3f98-4895-b523-5065543707d6" class=""><strong>Problem 5: Incorrect API versions.</strong> <strong>Solution:</strong></h3><ul id="8e3c92ac-e889-42f5-9f09-b7f0c492ff0b" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution:</strong><ul id="b6854700-57e7-4fab-89a7-66f96ab2c858" class="bulleted-list"><li style="list-style-type:circle">Make sure your plugin matches the API version used by the PocketMine-MP server.</li></ul><ul id="59afcf3b-c773-4c48-93eb-f475fa4c7fb5" class="bulleted-list"><li style="list-style-type:circle">Check the PocketMine-MP documentation for API compatibility.</li></ul></li></ul><p id="bf7f6fa4-3aee-48be-abfd-89127000d56b" class="">The solution to a particular problem depends on the specific situation, so it is important to carefully analyze error messages, use debugging tools, and refer to community resources for assistance.</p><p id="28e2d0a2-1e19-4907-9b92-4e68047af151" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

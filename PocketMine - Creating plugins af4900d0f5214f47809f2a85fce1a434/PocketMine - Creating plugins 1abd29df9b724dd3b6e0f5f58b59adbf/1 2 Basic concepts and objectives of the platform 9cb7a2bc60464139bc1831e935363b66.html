@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1.2 Basic concepts and objectives of the platform</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9cb7a2bc-6046-4139-bc18-31e935363b66" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">1.2 Basic concepts and objectives of the platform</h1><p class="page-description"></p></header><div class="page-body"><nav id="bf851c49-1e54-4a66-a3c6-94b92524b8c3" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d9250fc3-758d-416f-bf5c-2d28fb9f459d">Concepts and Goals</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b1ea2f17-61e5-42fc-a37b-8fead6b45cec">Features and Limitations of PocketMine-MP</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e291d4de-70b9-4f50-b628-0bd04ae62a5b">Capabilities:</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#17f369fa-2906-4f23-a644-945f89608815">Restrictions:</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7e45703d-bcae-4cfe-a01c-6d1981d0ef96">Role of plugins in expanding server functionality</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9ca3e58a-c6dc-40f0-a5ef-2673e571c278"><strong>Add New Functionality:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b51cff25-7044-44b9-9dd6-b6e98c7439f5"><strong>Gameplay Controls:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#45d712e7-52fb-46cd-ae52-3344a7bfc24b"><strong>Entertainment and Interactivity:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d56a61f9-1ff3-478d-b40d-97a7b7163cb8"><strong>Social Interactions:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#66c4912a-dfbc-4e43-88d5-421abd25b363"><strong>Administrative Features:</strong></a></div></nav><h2 id="d9250fc3-758d-416f-bf5c-2d28fb9f459d" class="">Concepts and Goals</h2><p id="29efc8bb-f755-47ea-857a-f25c6798b31c" class="">PocketMine-MP, as a server platform for Minecraft: Bedrock Edition, includes a number of core concepts and goals that form its unique essence:</p><ul id="1eb8815a-2494-45a9-bce8-44e2a1aeb33e" class="bulleted-list"><li style="list-style-type:disc"><strong>Openness and Extensibility</strong>.</li></ul><p id="5bbcb3cc-dedb-4762-8e92-9f12b4e241c0" class="">PocketMine-MP strives to be an open and extensible project, giving developers ample opportunity to make changes and additions. This openness includes access to the source code, which encourages active community participation in improving the platform.</p><ul id="fb6bcf79-8712-40f5-8a32-23de4c25e760" class="bulleted-list"><li style="list-style-type:disc"><strong>Multi-User Servers</strong>.</li></ul><p id="8112e0aa-b748-4fa9-a691-e42013c52c9e" class="">The main goal of PocketMine-MP is to provide an environment for creating and managing multiplayer servers for Minecraft: Bedrock Edition. The platform supports interaction with player clients, providing a stable and customizable infrastructure for online play.</p><ul id="feec6c11-5196-4c75-a755-cf0646435ca8" class="bulleted-list"><li style="list-style-type:disc"><strong>Plugins and Modifications</strong>.</li></ul><p id="40e78c8c-d8f0-4182-800e-4886aa44052a" class="">The central concept of PocketMine-MP is the use of plugins and modifications. Plugins allow you to add new features, modify gameplay, and interact with in-game events to give your servers unique features and personality.</p><ul id="de290cc0-e16b-424b-b0e0-858dc86fd6ca" class="bulleted-list"><li style="list-style-type:disc"><strong>Developer Community</strong></li></ul><p id="e40c0c22-df01-4ca0-9d5e-5ee5d1bb9272" class="">PocketMine-MP is actively supported by a community of developers who contribute to the improvement of the platform. Sharing knowledge, discussing new ideas, and working together allows PocketMine-MP to stay on trend and meet the needs of a diverse server community.</p><p id="c723b843-3f7e-4231-be83-cdd83b4b8968" class="">These core concepts and goals make PocketMine-MP a powerful tool for creating unique multiplayer servers in the world of Minecraft: Bedrock Edition.</p><h2 id="b1ea2f17-61e5-42fc-a37b-8fead6b45cec" class="">Features and Limitations of PocketMine-MP</h2><p id="8f1fa884-821a-4dd9-8979-60b0ebc0ec5e" class="">PocketMine-MP provides developers with many opportunities for creativity and customization of the multiplayer gaming experience. However, it is important to recognize the limitations of this platform as well. Let&#x27;s take a look at the key features and limitations of PocketMine-MP:</p><h3 id="e291d4de-70b9-4f50-b628-0bd04ae62a5b" class="">Capabilities:</h3><ol type="1" id="5a66b326-6a58-429d-9b19-29e91add1646" class="numbered-list" start="1"><li><strong>Plugins and Modifications:</strong>.<ul id="45bcc640-3824-4fb1-9f8f-c1313bd362fe" class="bulleted-list"><li style="list-style-type:disc">Ability to create and install plugins to expand the functionality of the server.</li></ul><ul id="c15dec88-8f45-48bd-8f25-4bd02a66d89e" class="bulleted-list"><li style="list-style-type:disc">Flexibility to implement your own ideas through modification of the gameplay.</li></ul></li></ol><ol type="1" id="02a8d760-2dc4-4342-840c-24d09d60fa38" class="numbered-list" start="2"><li><strong>API for Developers:</strong><ul id="954bd9e7-00d4-45f5-bd6a-418ebec0a95f" class="bulleted-list"><li style="list-style-type:disc">Full-featured API, providing access to various elements of the game world.</li></ul><ul id="91a41c03-2c46-4a9e-841b-6ec9fd99d6ea" class="bulleted-list"><li style="list-style-type:disc">Ability to create your own events, commands and handlers.</li></ul></li></ol><ol type="1" id="4d51b58c-606f-451e-b804-ee6fe3e107ba" class="numbered-list" start="3"><li><strong>Multiplayer Servers:</strong><ul id="6a71d4fe-01e5-4579-b5f2-640ce60febe4" class="bulleted-list"><li style="list-style-type:disc">Support for multiple players on a single server.</li></ul><ul id="a4d085e3-2009-464b-9250-82c00f77529a" class="bulleted-list"><li style="list-style-type:disc">Differentiation of access rights for players and administrators.</li></ul></li></ol><ol type="1" id="0a9be586-275e-4feb-b867-dba409739d9d" class="numbered-list" start="4"><li><strong>Active Community:</strong><ul id="36c9a7ab-319f-49c6-9e19-f0f7e6c8871b" class="bulleted-list"><li style="list-style-type:disc">Ability to participate in the community of developers and share experience.</li></ul><ul id="00eac1e6-6c23-4a2b-a45f-35f74eb6b7b5" class="bulleted-list"><li style="list-style-type:disc">Constant updates and support from the community.</li></ul></li></ol><h3 id="17f369fa-2906-4f23-a644-945f89608815" class="">Restrictions:</h3><ol type="1" id="2d2d0ff7-2d3d-4e2a-ba42-11cedeee7db2" class="numbered-list" start="1"><li><strong>Bedrock Edition Restrictions:</strong><ul id="967701d3-0898-41cb-8425-309d9ffef77a" class="bulleted-list"><li style="list-style-type:disc">Limitations imposed by Minecraft: Bedrock Edition, such as lack of full access to the server side.</li></ul></li></ol><ol type="1" id="82113b1b-01b0-4282-8e5a-8a19a39cabb2" class="numbered-list" start="2"><li><strong>Performance:</strong><ul id="0f143371-8453-438c-b264-7e3b7767cc50" class="bulleted-list"><li style="list-style-type:disc">Possible performance limitations with a large number of concurrent players or complex plugins.</li></ul></li></ol><ol type="1" id="bcc54204-4e5f-47ca-9440-4fc856ad8ce8" class="numbered-list" start="3"><li><strong>Some Features of Minecraft Java Edition:</strong><ul id="50eaeeb6-b4a2-4a92-b144-c1cb1834d85a" class="bulleted-list"><li style="list-style-type:disc">PocketMine-MP may not support some features inherent in Minecraft Java Edition.</li></ul></li></ol><ol type="1" id="811ceea4-16bf-46ce-be0a-2205a18bd4f6" class="numbered-list" start="4"><li><strong>Limited Resources:</strong><ul id="9798caa1-9100-440f-8c0e-3244fd36a705" class="bulleted-list"><li style="list-style-type:disc">Limited resources and tools compared to full-fledged Java servers.</li></ul></li></ol><p id="d848969b-40f4-486b-8363-f48979661de7" class="">Although PocketMine-MP opens many doors for creative multiplayer server development, understanding its capabilities and limitations allows you to utilize this tool more effectively in creating a unique gaming experience.</p><h2 id="7e45703d-bcae-4cfe-a01c-6d1981d0ef96" class="">Role of plugins in expanding server functionality</h2><p id="0d52fedf-1fcb-49ae-b05e-198404074cf9" class="">Plugins play a key role in the dynamics and uniqueness of servers running on the PocketMine-MP platform. Their purpose is not just to add new features, but to personalize and enrich the game experience of players. Let&#x27;s consider the role of plugins in expanding server functionality:</p><h3 id="9ca3e58a-c6dc-40f0-a5ef-2673e571c278" class=""><strong>Add New Functionality:</strong></h3><ul id="01194918-fb41-4d4c-94d4-04894a5f466b" class="bulleted-list"><li style="list-style-type:disc"><strong>Realization of Unique Ideas:</strong> Plugins allow you to implement unique concepts and ideas that may differ significantly from the standard gameplay.</li></ul><ul id="fa9dd3a3-f1f5-4826-bb87-c341e69c39ae" class="bulleted-list"><li style="list-style-type:disc"><strong>Usable Mechanics:</strong> Plugins can create custom game mechanics, events, and elements, adding depth and interest to gameplay.</li></ul><h3 id="b51cff25-7044-44b9-9dd6-b6e98c7439f5" class=""><strong>Gameplay Controls:</strong></h3><ul id="cf7f4b74-72eb-42d3-83ef-4d82a66931e3" class="bulleted-list"><li style="list-style-type:disc"><strong>Event Modification:</strong> Plugins allow you to react to and modify game events, introducing unique scenarios and features.</li></ul><ul id="1d1c6d19-8515-4263-b0ed-fd5148f92aae" class="bulleted-list"><li style="list-style-type:disc"><strong>Economy Control:</strong> Creating your own economic system, currency and trade relations among players.</li></ul><h3 id="45d712e7-52fb-46cd-ae52-3344a7bfc24b" class=""><strong>Entertainment and Interactivity:</strong></h3><ul id="98a43bd7-8704-4c1b-a90d-1a091f383bb8" class="bulleted-list"><li style="list-style-type:disc"><strong>Game Mini-Games:</strong> Plugins allow you to create fun mini-games, competitions and events, improving the variety of entertainment on your server.</li></ul><ul id="44bcc3e5-86a8-4d2b-a886-c9bb29b1d34d" class="bulleted-list"><li style="list-style-type:disc"><strong>Entertainment Systems:</strong> Ability to add various entertainment elements such as music, sounds, effects and others.</li></ul><h3 id="d56a61f9-1ff3-478d-b40d-97a7b7163cb8" class=""><strong>Social Interactions:</strong></h3><ul id="ab84b52c-da84-4a84-8eba-f335db00bc27" class="bulleted-list"><li style="list-style-type:disc"><strong>Creating Communities:</strong> Plugins can encourage interaction and social connections among players, such as through guilds, chat rooms, and community events.</li></ul><ul id="5df35ca5-8e70-4cf6-a261-3b79e73ea08e" class="bulleted-list"><li style="list-style-type:disc"><strong>Optimizing Collaborative Play:</strong> Improving the multiplayer experience by creating new teams and modes for cooperative play.</li></ul><h3 id="66c4912a-dfbc-4e43-88d5-421abd25b363" class=""><strong>Administrative Features:</strong></h3><ul id="fa001fee-8454-4249-8ba6-7c477d555e7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Tools for Administrators:</strong> Enhance administration capabilities, create tools to monitor and manage the server.</li></ul><ul id="2ccf1b98-344c-40d2-9084-5eb427f2ad9e" class="bulleted-list"><li style="list-style-type:disc"><strong>Security and Moderation:</strong> Plugins can implement security measures and moderation tools to maintain order on the server.</li></ul><p id="8531d2fa-8570-4823-a5a5-876954a76fb8" class="">PocketMine-MP plugins are integral to shaping a unique and inspiring gaming experience. Their flexibility and power allow developers to turn ordinary servers into unique virtual worlds with rich functionality.</p><p id="3f0c4925-36e0-4acd-83f7-a5002dffcc3d" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

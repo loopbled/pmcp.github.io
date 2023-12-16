@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>10.3 Publishing a plugin</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="03e6166a-d65e-4e74-b5e1-48e32f7ae624" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">10.3 Publishing a plugin</h1><p class="page-description"></p></header><div class="page-body"><nav id="b80b4c4f-c0ce-4964-a14c-c335095b99fd" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#07a7326e-61a9-401b-bd02-b39dc675f0ba">Uploading your plugin to platforms such as Poggit</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3f1dc389-07ef-4ac8-a9e2-147d7376e0f6"><strong>1. Fulfillment of all requirements:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#47b5d0a3-0bd4-4020-9a45-036bfcbd34b3"><strong>2. Preparing the plugin:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d834e0d6-541f-4ddb-b325-2cb630fee3e0"><strong>3. Upload to Poggit:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#65a65ab8-394e-4133-9964-0325b82d44a6"><strong>4. Validation and Testing:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9f8c3f79-4e5a-4d16-9c8a-e55e6397ad75">* <strong>5. Updates and Support:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#320b03c5-035a-47ad-b148-ab5d442b5453"><strong>6. Advertising and Promotion:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9eee54c4-9f90-40fe-8e69-1cb304b1510c"><strong>7. Support and Interaction:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#73403734-3c8a-4f49-87ed-9b21cc5118d0">Advertising and promotion through social media and forums</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#91eff8f6-51ea-41a5-a3ca-98e73f9be422"><strong>1. Content Creation:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#388051c0-cbbb-444e-98b1-86fcacbda08b"><strong>2. Social Media:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5ae65291-6587-4ca7-bdc3-8a7f8cfef373"><strong>3. Forums and Communities:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4734c31e-827c-441a-ad17-c0b06e6b458a"><strong>4. Partnerships and Collaboration:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#77c4cd23-539d-4ad6-82f2-5f47e474567f"><strong>5. Promotion through advertising channels:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#501ae1fb-9563-4cd3-a3db-79d19d840b56"><strong>6. Activity and engagement:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9495c50f-d615-406b-a541-657850041588"><strong>7. Monitoring results:</strong></a></div></nav><h2 id="07a7326e-61a9-401b-bd02-b39dc675f0ba" class="">Uploading your plugin to platforms such as Poggit</h2><p id="a91085ab-7340-4776-8e8c-fd28c5a0fd9d" class="">In this section, we will cover the process of uploading your plugin to popular platforms such as Poggit. This is an important step that allows your plugin to become available to a wider audience.</p><h3 id="3f1dc389-07ef-4ac8-a9e2-147d7376e0f6" class=""><strong>1. Fulfillment of all requirements:</strong></h3><ul id="8dca5cf9-7b95-411c-9724-8e783a3f5386" class="bulleted-list"><li style="list-style-type:disc"><strong>Platform account:</strong> Make sure you have an account on your chosen platform (e.g. Poggit).</li></ul><ul id="eda13f35-d2e3-4c53-8137-5621ccb6c892" class="bulleted-list"><li style="list-style-type:disc"><strong>Compliance:</strong> Familiarize yourself with the rules and requirements for uploading plugins on your chosen platform.</li></ul><h3 id="47b5d0a3-0bd4-4020-9a45-036bfcbd34b3" class=""><strong>2. Preparing the plugin:</strong></h3><ul id="52a56cf3-1086-4d8f-a1f5-753e6fda5978" class="bulleted-list"><li style="list-style-type:disc"><strong>Packaging the plugin:</strong> Create a ZIP archive containing all required plugin files.</li></ul><ul id="1dc2f2c5-c5b6-4c55-bb40-a587f98456c3" class="bulleted-list"><li style="list-style-type:disc"><strong>Documentation and License:</strong> Make sure your plugin is provided with detailed documentation and the selected license is specified.</li></ul><h3 id="d834e0d6-541f-4ddb-b325-2cb630fee3e0" class=""><strong>3. Upload to Poggit:</strong></h3><ul id="0432cccf-bcc0-495a-b76e-9fe3b4fd2e32" class="bulleted-list"><li style="list-style-type:disc"><strong>Authorization:</strong> Log in to your Poggit account.</li></ul><ul id="e630454f-612b-4161-a5ba-bfa4584253fd" class="bulleted-list"><li style="list-style-type:disc"><strong>Select Repository:</strong> Select the repository to which you want to upload the plugin.</li></ul><ul id="6269a6cd-65ab-439b-9849-ca31040c350e" class="bulleted-list"><li style="list-style-type:disc"><strong>Upload:</strong> Upload your plugin ZIP file to the platform.</li></ul><h3 id="65a65ab8-394e-4133-9964-0325b82d44a6" class=""><strong>4. Validation and Testing:</strong></h3><ul id="9f6ef064-351d-4385-92bb-2f2129606f61" class="bulleted-list"><li style="list-style-type:disc"><strong>Automatic Validation:</strong> Some platforms perform automatic validation of the plugin for compliance.</li></ul><ul id="13c39660-5881-4081-9e22-d53c439798cb" class="bulleted-list"><li style="list-style-type:disc"><strong>Testing:</strong> Verify that the plugin works after downloading.</li></ul><h3 id="9f8c3f79-4e5a-4d16-9c8a-e55e6397ad75" class="">* <strong>5. Updates and Support:</strong></h3><ul id="5261eee2-3b59-4233-a259-22248a23f9c3" class="bulleted-list"><li style="list-style-type:disc"><strong>Regular Updates:</strong> Maintain regular updates to the plugin, fix bugs and add new features.</li></ul><ul id="371dbfc9-fdbf-409a-85d5-cbd392ce317d" class="bulleted-list"><li style="list-style-type:disc"><strong>Responsive Feedback:</strong> Pay attention to feedback from users and make necessary changes.</li></ul><h3 id="320b03c5-035a-47ad-b148-ab5d442b5453" class=""><strong>6. Advertising and Promotion:</strong></h3><ul id="706b825a-edbe-47e8-9530-09d3e6896fb3" class="bulleted-list"><li style="list-style-type:disc"><strong>Description and Images:</strong> Create an attractive description and add images to attract users&#x27; attention.</li></ul><ul id="817b9629-8ea9-42a8-bf1e-5e0964f6d7d1" class="bulleted-list"><li style="list-style-type:disc"><strong>Community Advertising:</strong> Spread the word about your plugin in relevant communities and forums.</li></ul><h3 id="9eee54c4-9f90-40fe-8e69-1cb304b1510c" class=""><strong>7. Support and Interaction:</strong></h3><ul id="db57bb5d-3b70-4d5b-b879-d39677b06ce5" class="bulleted-list"><li style="list-style-type:disc"><strong>Forums and Communication:</strong> Participate in forums, answer user questions, and maintain active communication.</li></ul><ul id="c89c3cda-62fb-46f9-a6be-75abfc5b39fe" class="bulleted-list"><li style="list-style-type:disc"><strong>Create a community:</strong> Develop your community to share experiences and support users.</li></ul><p id="dbf50b49-0a14-4649-9365-92607ee30f23" class="">Successful plugin downloads and support across platforms is key to getting attention and user satisfaction.</p><h2 id="73403734-3c8a-4f49-87ed-9b21cc5118d0" class="">Advertising and promotion through social media and forums</h2><p id="fbb2dd25-4846-4080-8764-fe81dcb40ec5" class="">In this section, we will look at methods to effectively advertise and promote your plugin using social media and forums.</p><h3 id="91eff8f6-51ea-41a5-a3ca-98e73f9be422" class=""><strong>1. Content Creation:</strong></h3><ul id="306215a0-bc19-4d9b-bda5-5bc7a5f3f9e7" class="bulleted-list"><li style="list-style-type:disc"><strong>Graphic material:</strong> Prepare attractive images, banners and screenshots demonstrating the plugin functionality.</li></ul><ul id="6f462504-86ab-46b2-80b3-c3c6335c5c70" class="bulleted-list"><li style="list-style-type:disc"><strong>Video Presentation:</strong> If possible, create a short video demonstrating the features and benefits of your plugin.</li></ul><h3 id="388051c0-cbbb-444e-98b1-86fcacbda08b" class=""><strong>2. Social Media:</strong></h3><ul id="e3d54e7f-7618-46ae-b866-170777644aef" class="bulleted-list"><li style="list-style-type:disc"><strong>Create a page:</strong> Start a page for your plugin on popular social media sites such as Twitter, Facebook, Instagram.</li></ul><ul id="3d4918c7-5030-42b1-8e73-791e67098716" class="bulleted-list"><li style="list-style-type:disc"><strong>Regular Updates:</strong> Publish regular updates, news and interesting facts about your plugin.</li></ul><ul id="bad244a9-12f8-4c88-9d8f-5ec20e5c1d72" class="bulleted-list"><li style="list-style-type:disc"><strong>Subscriber Engagement:</strong> Respond to comments, questions and suggestions from subscribers.</li></ul><h3 id="5ae65291-6587-4ca7-bdc3-8a7f8cfef373" class=""><strong>3. Forums and Communities:</strong></h3><ul id="72afd7a9-fe65-4c0d-80cf-b5c9e0e21b67" class="bulleted-list"><li style="list-style-type:disc"><strong>Forum Participation:</strong> Actively participate in Minecraft and PocketMine-MP related forums by introducing your plugin.</li></ul><ul id="82c6d110-c562-4923-a6a2-400a29da7b2e" class="bulleted-list"><li style="list-style-type:disc"><strong>Topic creation:</strong> Create a separate topic for your plugin, where you will describe its functionality and features in detail.</li></ul><ul id="ae7bfebe-4c5a-409e-a8a1-ce951fb45325" class="bulleted-list"><li style="list-style-type:disc"><strong>Feedback:</strong> Listen carefully to feedback from community members and implement suggestions in the development of your plugin.</li></ul><h3 id="4734c31e-827c-441a-ad17-c0b06e6b458a" class=""><strong>4. Partnerships and Collaboration:</strong></h3><ul id="7e31bd4e-04fd-4c09-9d0e-b16a5d9b232d" class="bulleted-list"><li style="list-style-type:disc"><strong>Search for partners:</strong> Consider collaborating with other developers or plugins for mutual support.</li></ul><ul id="31304a81-27ea-452c-9120-b79db16882dd" class="bulleted-list"><li style="list-style-type:disc"><strong>Participate in Events:</strong> Participate in events and conferences to expand your network of contacts.</li></ul><h3 id="77c4cd23-539d-4ad6-82f2-5f47e474567f" class=""><strong>5. Promotion through advertising channels:</strong></h3><ul id="b038fa07-ecd5-42b6-b823-6eccdd0f9da8" class="bulleted-list"><li style="list-style-type:disc"><strong>Paid Advertising Campaigns:</strong> Use paid advertising campaigns on platforms such as Google AdWords or social media.</li></ul><ul id="961ea936-f0e1-4f66-9600-c61412752585" class="bulleted-list"><li style="list-style-type:disc"><strong>Advertising in the Minecraft community:</strong> Showcase your plugin on specialized Minecraft and PocketMine-MP resources.</li></ul><h3 id="501ae1fb-9563-4cd3-a3db-79d19d840b56" class=""><strong>6. Activity and engagement:</strong></h3><ul id="ad3fb471-5982-4518-bc88-bceac95069dc" class="bulleted-list"><li style="list-style-type:disc"><strong>Organize contests and promotions:</strong> Organize contests or promotions to attract the attention of new users.</li></ul><ul id="cbe946d5-6538-463d-b9bd-ed055adc46f4" class="bulleted-list"><li style="list-style-type:disc"><strong>Actively participate in discussions:</strong> Take an active part in discussions, express your opinion by sharing your experience.</li></ul><h3 id="9495c50f-d615-406b-a541-657850041588" class=""><strong>7. Monitoring results:</strong></h3><ul id="fb3970d5-7f0f-4828-bf38-3b9b895b1920" class="bulleted-list"><li style="list-style-type:disc"><strong>Analytics and statistics:</strong> Use analytical tools to track the effectiveness of advertising and promotion.</li></ul><ul id="d3f28fb6-b534-4cad-a34e-1008f5aa0875" class="bulleted-list"><li style="list-style-type:disc"><strong>Correct your strategy:</strong> Based on the data you receive, adjust your advertising strategy to achieve better results.</li></ul><p id="93fb1e31-b17d-4170-bb19-4eaebb195544" class="">Effective advertising and promotion will make your plugin more visible in the Minecraft community, attract new users and create a successful environment for your project.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
