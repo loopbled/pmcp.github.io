@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>10.1 Підготовка плагіна до публікації</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a958d4ef-959d-489e-bdcb-3f0a4a1d33f1" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">10.1 Підготовка плагіна до публікації</h1><p class="page-description"></p></header><div class="page-body"><nav id="7795a580-645a-459b-aed5-ca274c7159c4" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#af3d77a3-ba0e-4cfc-9f12-25d9ad803946">Оформлення документації та README</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4deff98f-876d-44d6-8b16-34f69f51bcf5"><strong>1. Структура README:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bcf5ce4b-64ee-42e5-adcd-45083446296e"><strong>2. Документація плагіна:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#aa0b2317-fc02-4595-b33d-a1226c13e98d"><strong>3. оновлення документації:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3e81af29-7f27-43c0-b2d2-2943d548a9d2"><strong>4. Інструкції зі встановлення та оновлення:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bcbf6c55-4289-4317-bc72-8ea85664c186"><strong>5. стиль і форматування:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5f37e05a-1d16-4741-a49a-2ef3631de0f7"><strong>6. Підтримка та спільнота:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#9ae43f7e-8e76-4358-9f7e-a5c8403e38f1">Ліцензування та вибір ліцензії</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cf8334c0-6fd1-463a-ac73-f93e77096c6c"><strong>1. Що таке ліцензія:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e9b284ae-9334-4db1-80da-b5c16ff4bbb5"><strong>2. Популярні типи ліцензій:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c8ce0a2c-1260-473c-9281-80ef1c7a18f6"><strong>3. Вибір ліцензії для вашого плагіна:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#34b16330-db0b-48d3-9673-61fcb8e7557d"><strong>4. Як додати ліцензію до вашого проєкту:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#743af051-fc55-4500-9e22-0250ff063d2c"><strong>5. повідомлення про авторство:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#78308a04-50af-4854-a021-25c2e9ed1b0b"><strong>6. Угода про зміни:</strong></a></div></nav><h2 id="af3d77a3-ba0e-4cfc-9f12-25d9ad803946" class="block-color-red_background">Оформлення документації та README</h2><p id="758b9714-9aed-4cc2-ad7c-aea47ff032d5" class="">Цей розділ присвячений створенню якісної документації та README для вашого плагіна. Добре оформлена документація допомагає користувачам швидко розібратися у функціоналі вашого плагіна і використовувати його ефективно.</p><h3 id="4deff98f-876d-44d6-8b16-34f69f51bcf5" class=""><strong>1. Структура README:</strong></h3><ul id="5b1d4bfe-c978-430f-b52f-ddd7863e0f12" class="bulleted-list"><li style="list-style-type:disc"><strong>Опис проекту:</strong> Короткий, але інформативний опис того, що робить ваш плагін.</li></ul><ul id="0b36dc61-9bc1-4bc1-92f3-e7c37a554c8e" class="bulleted-list"><li style="list-style-type:disc"><strong>Встановлення та налаштування:</strong> Кроки зі встановлення та базового налаштування плагіна.</li></ul><ul id="faea9840-7d6a-4f26-b58a-05e5dcac2767" class="bulleted-list"><li style="list-style-type:disc">Приклади використання:** Кілька прикладів коду або скріншотів, що ілюструють, як використовувати ваш плагін.</li></ul><ul id="bc2eb2a5-d74c-457e-ab16-edc61e665a98" class="bulleted-list"><li style="list-style-type:disc"><strong>Посилання та контакти:</strong> Надайте посилання на додаткові ресурси, такі як документація, форуми підтримки, а також свої контактні дані для зворотного зв&#x27;язку.</li></ul><h3 id="bcf5ce4b-64ee-42e5-adcd-45083446296e" class=""><strong>2. Документація плагіна:</strong></h3><ul id="fc240ed1-0db0-4c1a-bd74-f1674b020642" class="bulleted-list"><li style="list-style-type:disc"><strong>Основні концепції:</strong> Пояснення ключових концепцій вашого плагіна.</li></ul><ul id="fbafab52-6816-4870-bb53-11bef3fe825c" class="bulleted-list"><li style="list-style-type:disc"><strong>API та події:</strong> Детальний опис доступних API та подій, які можуть бути використані розробниками.</li></ul><ul id="511091b6-080e-4878-a8cc-47b5070d3336" class="bulleted-list"><li style="list-style-type:disc">Приклади коду:** Надайте приклади коду для різних сценаріїв використання плагіна.</li></ul><ul id="0da628a3-f4b6-4469-9b79-08ea15d6132e" class="bulleted-list"><li style="list-style-type:disc">Налаштування та конфігурація:** Інформація про параметри конфігурації та способи налаштування плагіна.</li></ul><h3 id="aa0b2317-fc02-4595-b33d-a1226c13e98d" class=""><strong>3. оновлення документації:</strong></h3><ul id="f59bfb70-08f4-411f-8030-f45d595933ad" class="bulleted-list"><li style="list-style-type:disc"><strong>Регулярні оновлення:</strong> Слідкуйте за актуальністю документації, особливо після випуску нових версій плагіна.</li></ul><ul id="e85cdc79-ad61-4cf1-87ea-baec507cab96" class="bulleted-list"><li style="list-style-type:disc"><strong>Повідомлення про зміни:</strong> У README вкажіть зміни в кожній новій версії для того, щоб користувачі могли оцінити, чи варто їм оновлюватися.</li></ul><h3 id="3e81af29-7f27-43c0-b2d2-2943d548a9d2" class=""><strong>4. Інструкції зі встановлення та оновлення:</strong></h3><ul id="ea0ced02-457b-44ba-a326-ac6d09814d9f" class="bulleted-list"><li style="list-style-type:disc"><strong>Чіткі кроки встановлення:</strong> Надайте прості та чіткі інструкції щодо встановлення вашого плагіна.</li></ul><ul id="2a216009-bc8d-4074-9441-bda21cc26da0" class="bulleted-list"><li style="list-style-type:disc"><strong>Рекомендації щодо оновлення:</strong> Якщо плагін має механізм оновлення, надайте інструкції щодо його використання.</li></ul><h3 id="bcbf6c55-4289-4317-bc72-8ea85664c186" class=""><strong>5. стиль і форматування:</strong></h3><ul id="2a76ef8d-8c5a-4113-b242-13100bca6659" class="bulleted-list"><li style="list-style-type:disc"><strong>Читабельність і структура:</strong> Зробіть текст читабельним з використанням розділів, списків і форматування коду.</li></ul><ul id="b4005be2-ac59-4dd7-876c-f507488be685" class="bulleted-list"><li style="list-style-type:disc"><strong>Мова і термінологія:</strong> Використовуйте зрозумілу і ясну мову, уникайте сленгу і термінів, які можуть бути незрозумілі новачкам.</li></ul><h3 id="5f37e05a-1d16-4741-a49a-2ef3631de0f7" class=""><strong>6. Підтримка та спільнота:</strong></h3><ul id="0c9dfd5e-da97-4f33-8932-7a2b64557a17" class="bulleted-list"><li style="list-style-type:disc"><strong>Посилання на форуми та чати:</strong> Надайте посилання на місця, де користувачі можуть обговорити ваш плагін і отримати підтримку.</li></ul><ul id="bcf6e7cf-ede0-4e41-aa11-5a1241e36aff" class="bulleted-list"><li style="list-style-type:disc"><strong>Відповіді на запитання:</strong> Регулярно відповідайте на запитання користувачів і вносьте зміни в документацію, щоб врахувати нові сценарії використання.</li></ul><p id="3713492c-f33c-4a36-aa00-946121493c9b" class="">Створення якісної документації - ключовий елемент успішної публікації вашого плагіна. Вона забезпечує зручність використання та сприяє залученню нових користувачів і розробників.</p><h2 id="9ae43f7e-8e76-4358-9f7e-a5c8403e38f1" class="block-color-red_background">Ліцензування та вибір ліцензії</h2><p id="0833e5f3-0240-4b9c-9625-cf3e4aa96a90" class="">У цьому розділі ми розглянемо питання, пов&#x27;язані з ліцензуванням вашого плагіна. Ліцензія - це правовий документ, який визначає умови використання вашого програмного забезпечення іншими людьми. Вибір правильної ліцензії важливий для захисту ваших прав і надання чітких інструкцій щодо використання вашого плагіна.</p><h3 id="cf8334c0-6fd1-463a-ac73-f93e77096c6c" class=""><strong>1. Що таке ліцензія:</strong></h3><ul id="851db2da-5982-4ca9-a598-db9705fa2cbf" class="bulleted-list"><li style="list-style-type:disc"><strong>Визначення прав та обов&#x27;язків:</strong> Ліцензія встановлює правила, за якими інші можуть використовувати, розповсюджувати та модифікувати ваш плагін.</li></ul><ul id="f1ff7e54-c220-4b2b-b5e2-f15245b5c364" class="bulleted-list"><li style="list-style-type:disc"><strong>Захист авторських прав:</strong> Ліцензія є засобом захисту ваших авторських прав на плагін.</li></ul><h3 id="e9b284ae-9334-4db1-80da-b5c16ff4bbb5" class=""><strong>2. Популярні типи ліцензій:</strong></h3><ul id="8a6277c0-018c-4396-b71e-913b6f8dc294" class="bulleted-list"><li style="list-style-type:disc"><strong>MIT:</strong> Дозволяє вільне використання, модифікацію, розповсюдження та впровадження в інші проєкти при збереженні оригінальної ліцензії та повідомленні про авторство.</li></ul><ul id="e06f80be-2862-4431-88aa-eb4002d8d5f4" class="bulleted-list"><li style="list-style-type:disc"><strong>GPL:</strong> Вимагає, щоб будь-які похідні роботи також були ліцензовані за GPL і стали відкритими вихідними кодами.</li></ul><ul id="35d028cb-eaef-455b-9a5e-9f4c4b5d5077" class="bulleted-list"><li style="list-style-type:disc"><strong>Apache:</strong> Надає широкі права використання, модифікації та розповсюдження, але також вимагає зазначення змін у коді.</li></ul><h3 id="c8ce0a2c-1260-473c-9281-80ef1c7a18f6" class=""><strong>3. Вибір ліцензії для вашого плагіна:</strong></h3><ul id="6ebab82d-50ba-444d-9cdc-1140dc49ab01" class="bulleted-list"><li style="list-style-type:disc"><strong>Цілі проєкту:</strong> Враховуйте цілі свого проєкту та бажаний рівень відкритості коду.</li></ul><ul id="3a399e76-8455-42ca-874d-f47a6269b8bd" class="bulleted-list"><li style="list-style-type:disc">Сумісність з іншими проектами:** Переконайтеся, що обрана вами ліцензія сумісна з проектами, з якими ваш плагін може бути інтегрований.</li></ul><h3 id="34b16330-db0b-48d3-9673-61fcb8e7557d" class=""><strong>4. Як додати ліцензію до вашого проєкту:</strong></h3><ul id="07ba958c-13ea-4355-84f1-2fe8bcd0b75b" class="bulleted-list"><li style="list-style-type:disc"><strong>Включення тексту ліцензії:</strong> Додайте текст обраної ліцензії в кореневу директорію вашого плагіна.</li></ul><ul id="6ab7729f-1bf1-429b-95c9-18afd26c88c2" class="bulleted-list"><li style="list-style-type:disc"><strong>Посилання в README:</strong> Вкажіть посилання на текст ліцензії у вашому README для ясності та зручності користувачів.</li></ul><h3 id="743af051-fc55-4500-9e22-0250ff063d2c" class=""><strong>5. повідомлення про авторство:</strong></h3><ul id="d8a970f8-2f6c-4743-8650-bf18f10e8ea3" class="bulleted-list"><li style="list-style-type:disc"><strong>Вказівка авторства:</strong> У ліцензійному файлі та в README вкажіть інформацію про авторство, щоб користувачі знали, хто є оригінальним творцем.</li></ul><h3 id="78308a04-50af-4854-a021-25c2e9ed1b0b" class=""><strong>6. Угода про зміни:</strong></h3><ul id="305e9330-b91c-45cf-a14f-6880b021e3df" class="bulleted-list"><li style="list-style-type:disc">Зазначте процес змін:** Якщо ваш проєкт відкритий для внесення змін, надайте інструкції про те, як розробники можуть пропонувати свої правки.</li></ul><p id="5de7b8ca-d024-4a7a-a43a-c70349b5379d" class="">Вибір правильної ліцензії - це важливий крок в успішній публікації плагіна, який створює ясні та зрозумілі правила використання вашого програмного забезпечення.</p><p id="273826b3-8d75-4cbb-b9f2-8958ca8f3fbb" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

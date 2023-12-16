@@ -1,0 +1,793 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4.2 Як події працюють у PocketMine-MP</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="634f48cc-6e58-4a3c-83bc-f5a983c47b90" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/></div><h1 class="page-title">4.2 Як події працюють у PocketMine-MP</h1><p class="page-description"></p></header><div class="page-body"><nav id="31872e12-ea78-4da3-8f73-4039a097f4cc" class="block-color-gray_background table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#46a80f70-73ba-4a15-a4ea-4c9762060688"><strong>Основні кроки роботи з подіями</strong>.</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#db44af5c-5753-4d35-b3c4-a95e1a79d0c8">Огляд типів подій та їхніх можливих використань</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e843e765-d778-431b-99e9-5a4049f32762"><strong>1. Події Гравців:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e916676e-5972-494b-9ba6-1a90aeffbe56"><strong>2. Події Блоків:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c3bb0803-b11a-4a3c-905c-c6889d3daec0"><strong>3. Події Сутностей:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#70885d0b-4efc-4038-a351-b202643f83b2">Приклади популярних подій</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#85f18d73-3813-403f-a51d-cda3a1042d72"><strong>1. Подія приєднання гравця:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c9184e29-835f-4fbb-ae9f-f02cbd421b2a"><strong>2. Подія руйнування блоку:</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#236f34e0-9363-4c3d-aa1f-1422b7941d5d"><strong>3. Подія отримання шкоди сутністю:</strong></a></div></nav><p id="cb3b8239-d881-4d0d-bab4-6b60804d2cea" class="">У PocketMine-MP події надають ефективний спосіб реагувати на різні дії та зміни в грі. Давайте детальніше розберемо, як саме події працюють у цій платформі.</p><h3 id="46a80f70-73ba-4a15-a4ea-4c9762060688" class=""><strong>Основні кроки роботи з подіями</strong>.</h3><ol type="1" id="568fdeb7-2305-418a-b9c7-518bc0ab9f22" class="numbered-list" start="1"><li><strong>Виникнення Події:</strong><ul id="378498e8-8101-4eb9-aa2d-cea3a2aa4114" class="bulleted-list"><li style="list-style-type:disc">Подія виникає у відповідь на конкретну дію або зміну стану в грі. Наприклад, подія <code>PlayerJoinEvent</code> виникає, коли гравець приєднується до сервера.</li></ul></li></ol><ol type="1" id="28855ed5-70d4-4956-b06d-d73d063963e2" class="numbered-list" start="2"><li><strong>Реєстрація Обробника:</strong><ul id="c969fc5b-659a-4232-8aa5-78a26a134e08" class="bulleted-list"><li style="list-style-type:disc">Ваш плагін повинен реалізовувати інтерфейс <code>Listener</code>. Потім ви реєструєте ваш клас-обробник у системі подій за допомогою методу <code>registerEvents</code>.</li></ul><p id="56bc5224-eece-41f1-b62c-32ebbb914cf6" class="">Приклад:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ca7b10a-b204-441a-baff-89ee4dacba4d" class="code code-wrap"><code class="language-PHP">use pocketmine\\\\plugin\\\\PluginBase;
+use pocketmine\\\\event\\\\Listener;
+
+class MyPlugin extends PluginBase implements Listener {
+
+    public function onEnable() {
+        $this-&gt;getServer()-&gt;getPluginManager()-&gt;registerEvents($this, $this);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="4f090f37-e7d5-4d9e-b1ac-a58f0a03acc0" class="numbered-list" start="3"><li><strong>Спрацьовування Обробника:</strong><ul id="ac3f6aa4-97c4-46a2-885d-1cad2896d900" class="bulleted-list"><li style="list-style-type:disc">Коли подія відбувається, відповідний метод у вашому класі-обробнику викликається автоматично. Наприклад, якщо гравець приєднується, викликається метод <code>onPlayerJoin</code>.</li></ul><p id="8913b5d2-3401-424a-a379-1a4e624c1f68" class="">Приклад:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eebf4166-86fc-417b-ae6d-4d7af7a3674a" class="code code-wrap"><code class="language-PHP">use pocketmine\\\\event\\\\player\\\\PlayerJoinEvent;
+use pocketmine\\\\event\\\\Listener;
+
+class MyEventListener implements Listener {
+
+    public function onPlayerJoin(PlayerJoinEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $player-&gt;sendMessage(&quot;Ласкаво просимо, {$player-&gt;getName()}!&quot;);
+    }
+}
+
+</code></pre></li></ol><ol type="1" id="9eebd712-0ae7-4c98-8a66-a540be597d44" class="numbered-list" start="4"><li><strong>Доступ до Даних Події:</strong><ul id="09f410d3-f017-4faf-9c81-b9880908d80b" class="bulleted-list"><li style="list-style-type:disc">Події надають різні методи і властивості для доступу до даних, пов&#x27;язаних із подією, що відбулася. У наведеному вище прикладі ми використовуємо метод <code>$event-&gt;getPlayer()</code>, щоб отримати гравця, який приєднався до сервера.</li></ul></li></ol><p id="89153af4-e840-44e5-a7eb-2ac43c5e4e7e" class="">Такий механізм обробки подій дає змогу вам гнучко взаємодіяти з різними аспектами гри та створювати унікальні функції для вашого сервера. У наступних частинах модуля ми розглянемо більш конкретні приклади подій та їхньої обробки.</p><h2 id="db44af5c-5753-4d35-b3c4-a95e1a79d0c8" class="block-color-red_background">Огляд типів подій та їхніх можливих використань</h2><p id="8bd571fa-4bfb-49e4-bbdc-664ab4d642ec" class="">Існує безліч типів подій у PocketMine-MP, кожен з яких надає унікальні можливості для взаємодії з ігровим процесом. Розгляньмо кілька основних типів подій і можливі сфери їх застосування.</p><h3 id="e843e765-d778-431b-99e9-5a4049f32762" class=""><strong>1. Події Гравців:</strong></h3><ul id="8f31bfd6-a8ef-4ff1-9743-457b3f12de78" class="bulleted-list"><li style="list-style-type:disc"><strong>PlayerJoinEvent:</strong> Спрацьовує, коли гравець приєднується до сервера. Використовується для привітання нових гравців, надання стартового обладнання тощо.</li></ul><p id="104bf095-afde-42b1-9841-a99aa9455ced" class="">Приклад:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="00125748-19e4-4ad0-9cce-e8313b301c57" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\player\\PlayerJoinEvent;
+use pocketmine\\event\\Listener;
+
+class MyEventListener implements Listener {
+
+    public function onPlayerJoin(PlayerJoinEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $player-&gt;sendMessage(&quot;Ласкаво просимо, {$player-&gt;getName()}!&quot;);
+    }
+}
+
+</code></pre><ul id="b4b71d50-9904-4d61-a125-d2c0906524fa" class="bulleted-list"><li style="list-style-type:disc"><strong>PlayerQuitEvent:</strong> Викликається при виході гравця з сервера. Може використовуватися для запису статистики гравців при виході.</li></ul><h3 id="e916676e-5972-494b-9ba6-1a90aeffbe56" class=""><strong>2. Події Блоків:</strong></h3><ul id="7f2adcb2-375e-41d6-a825-5a63f47e24c6" class="bulleted-list"><li style="list-style-type:disc"><strong>BlockBreakEvent:</strong> Подія руйнування блоку гравцем. Дозволяє вам контролювати процес видобутку ресурсів.</li></ul><p id="66a72e6d-53bd-43d6-bebc-8bb8645e6963" class="">Приклад:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cec5c601-442d-430f-94e3-d00d245d79f9" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\block\\BlockBreakEvent;
+use pocketmine\\event\\Listener;
+
+class MyBlockListener implements Listener {
+
+    public function onBlockBreak(BlockBreakEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $block = $event-&gt;getBlock();
+
+        $player-&gt;sendMessage(&quot;Ви зруйнували блок {$block-&gt;getName()}&quot;);
+    }
+}
+
+</code></pre><ul id="267f3509-6d07-4d36-82ee-789c2b3f6e10" class="bulleted-list"><li style="list-style-type:disc"><strong>BlockPlaceEvent:</strong> Подія встановлення блоку гравцем. Дозволяє вам застосовувати додаткові перевірки перед розміщенням блоку.</li></ul><h3 id="c3bb0803-b11a-4a3c-905c-c6889d3daec0" class=""><strong>3. Події Сутностей:</strong></h3><ul id="7886a266-c56e-4247-8c06-5f2fc0dbd618" class="bulleted-list"><li style="list-style-type:disc"><strong>EntityDamageEvent:</strong> Викликається при нанесенні шкоди сутності. Може використовуватися для модифікації шкоди або запобігання пошкоджень.</li></ul><p id="563ee090-f420-468f-b225-dd41c429328f" class="">Приклад:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c0e36e86-325c-45ef-b22c-a1c7ee8d432b" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\entity\\EntityDamageEvent;
+use pocketmine\\event\\Listener;
+
+class MyEntityListener implements Listener {
+
+    public function onEntityDamage(EntityDamageEvent $event) {
+        $entity = $event-&gt;getEntity();
+        $damage = $event-&gt;getFinalDamage();
+
+        if ($entity instanceof Player) {
+            $entity-&gt;sendMessage(&quot;Ви отримали шкоду: $damage&quot;);
+        }
+    }
+}
+
+</code></pre><p id="7af5090a-e8c8-4fc8-8173-f57d92d2d461" class="">Це лише невеликий огляд типів подій та їхніх можливих використань. Залежно від ваших потреб ви можете використовувати інші події та налаштовувати їх обробники для створення унікального ігрового досвіду на вашому сервері.</p><h2 id="70885d0b-4efc-4038-a351-b202643f83b2" class="block-color-red_background">Приклади популярних подій</h2><p id="a0e764a2-e43f-468a-8ed5-7e69186e25c9" class="">У цьому розділі ми розглянемо кілька прикладів популярних подій та їхньої обробки в PocketMine-MP.</p><h3 id="85f18d73-3813-403f-a51d-cda3a1042d72" class=""><strong>1. Подія приєднання гравця:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3ea40876-2abb-4043-af0f-633807d0fc6a" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\player\\PlayerJoinEvent;
+use pocketmine\\event\\Listener;
+
+
+class MyEventListener implements Listener {
+
+
+    public function onPlayerJoin(PlayerJoinEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $player-&gt;sendMessage(&quot;Ласкаво просимо, {$player-&gt;getName()}!&quot;);
+    }
+}
+
+
+</code></pre><p id="09842c2f-b471-427a-9eab-57611f37a8e0" class="">Цей приклад показує, як обробляти подію приєднання гравця. При кожному приєднанні гравця до сервера надсилається вітальне повідомлення.</p><h3 id="c9184e29-835f-4fbb-ae9f-f02cbd421b2a" class=""><strong>2. Подія руйнування блоку:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e6865612-6cdc-4f5f-a4bf-1bb8281250ba" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\block\\BlockBreakEvent;
+use pocketmine\\event\\Listener;
+
+
+class MyBlockListener implements Listener {
+
+
+    public function onBlockBreak(BlockBreakEvent $event) {
+        $player = $event-&gt;getPlayer();
+        $block = $event-&gt;getBlock();
+
+
+        $player-&gt;sendMessage(&quot;Ви зруйнували блок {$block-&gt;getName()}&quot;);
+    }
+}
+
+
+</code></pre><p id="466264c7-8a1d-462e-ac01-13a854a9f5ae" class="">Цей приклад показує, як обробляти подію руйнування блоку гравцем. При кожному руйнуванні блоку надсилається повідомлення з інформацією про зруйнований блок.</p><h3 id="236f34e0-9363-4c3d-aa1f-1422b7941d5d" class=""><strong>3. Подія отримання шкоди сутністю:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="091014a0-bd4f-4ad1-85b3-5fb716a48c8f" class="code code-wrap"><code class="language-PHP">phpCopy code
+use pocketmine\\event\\entity\\EntityDamageEvent;
+use pocketmine\\event\\Listener;
+
+
+class MyEntityListener implements Listener {
+
+
+    public function onEntityDamage(EntityDamageEvent $event) {
+        $entity = $event-&gt;getEntity();
+        $damage = $event-&gt;getFinalDamage();
+
+
+        if ($entity instanceof Player) {
+            $entity-&gt;sendMessage(&quot;Ви отримали шкоду: $damage&quot;);
+        }
+    }
+}
+
+
+</code></pre><p id="4cebb7cd-cb05-4d49-9be0-4a02a4f42267" class="">Цей приклад показує, як обробляти подію отримання шкоди сутністю (наприклад, гравцем). При кожному отриманні шкоди надсилається повідомлення з інформацією про отриману шкоду.</p><p id="bd01602f-1b43-47cf-af56-a0ad53ea837a" class="">Це всього лише кілька прикладів того, як події використовуються для взаємодії з різними аспектами гри. Залежно від ваших потреб ви можете створювати свої власні обробники для інших подій і доповнювати функціональність вашого сервера.</p><p id="19c433eb-6b73-44cc-9f91-f0cb8ed76dd1" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
