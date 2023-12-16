@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PocketMine - Розробка плагінів</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5c3b517e-d614-4704-bda5-68e432044b13" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/solid_blue.png" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://play-lh.googleusercontent.com/KQh_7SQ_OaVHuy0khwIFmW-gU84AY3rWsd6oqgTWvLMbHvyiws7MG08NNiJ7D_SzDvU"/></div><h1 class="page-title">PocketMine - Розробка плагінів</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="75524b45-ed44-4205-9eb2-297ebf5879c2"><div style="font-size:1.5em"><span class="icon">🇺🇦</span></div><div style="width:100%"><strong>ПІДТРИМАЙТЕ УКРАЇНУ У ВИРІШАЛЬНУ МИТЬ. </strong><a href="https://u24.gov.ua/"><strong>ЗРОБИТИ ВНЕСОК</strong></a></div></figure><h2 id="ef7bcd20-b680-4dcc-ad3a-46c9207392fc" class="block-color-blue_background">Модуль 1: Вступ до PocketMine-MP</h2><p id="6aac349c-eb6c-40e6-979e-8e6953f288ea" class="">Ласкаво просимо ✌️ у захопливий світ розробки плагінів для PocketMine-MP! Цей модуль надасть вам ключові знання та розуміння базових концепцій, необхідних для успішного створення плагінів на платформі PocketMine-MP для Minecraft: Bedrock Edition.</p><p id="ca520308-ce83-4078-9e9c-4608ac06f3de" class="">У першому розділі ми зануримося в основи PocketMine-MP, вивчивши його ключові цілі та можливості. Після цього ми розглянемо, чому створення плагінів є важливим аспектом для розширення функціоналу</p><figure id="16d7e166-d9c4-4c2f-a7e1-9c93ad2f0687" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/1%201%20%D0%A9%D0%BE%20%D1%82%D0%B0%D0%BA%D0%B5%20PocketMine-MP%2016d7e166d9c44c2fa7e19c93ad2f0687.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.1. Що таке PocketMine-MP</a></figure><figure id="38da3eeb-daca-4525-ab8e-c91e1b9b57f1" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/1%202%20%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%96%20%D0%BF%D0%BE%D0%BD%D1%8F%D1%82%D1%82%D1%8F%20%D1%82%D0%B0%20%D1%86%D1%96%D0%BB%D1%96%20%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B8%2038da3eebdaca4525ab8ec91e1b9b57f1.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.2 Основні поняття та цілі платформи</a></figure><figure id="33340afc-6ef4-42d9-9280-49b6655e3dfb" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/1%203%20%D0%A7%D0%BE%D0%BC%D1%83%20%D1%81%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%20%D0%B4%D0%BB%D1%8F%20PocketMine-MP%20%D0%B2%D0%B0%D0%B6%D0%BB%2033340afc6ef442d9928049b6655e3dfb.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.3 Чому створення плагінів для PocketMine-MP важливе?</a></figure><h2 id="c98d7465-dcf5-4b08-9bab-698bb37ea9c3" class="block-color-blue_background">Модуль 2: Підготовка до розробки</h2><p id="63a71061-7b35-4971-87a6-763d8a4c2956" class="">У цьому модулі ми підготуємо вас до захоплюючого світу розробки плагінів для PocketMine-MP. Ви дізнаєтеся, як встановити сервер, налаштувати оточення розробки та опануєте основи структури плагіна. Цей модуль забезпечить вас необхідними інструментами та знаннями для творчості у світі PocketMine-MP.</p><p id="433741f3-dba9-47ee-838f-58550c024d1e" class="">Готуйтеся до хвилюючого занурення в процес розробки та створення унікальних плагінів для PocketMine-MP!</p><figure id="1e222be6-9811-4aeb-9e55-6c2c22e3c1c3" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/2%201%20%D0%92%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F%20PocketMine-MP%201e222be698114aeb9e556c2c22e3c1c3.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.1 Встановлення PocketMine-MP</a></figure><figure id="9bebe470-fa77-4c81-b7fd-c4e4e444b0e6" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/2%202%20%D0%86%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D1%96%D1%96%CC%88%20%D0%B7%D1%96%20%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0%209bebe470fa774c81b7fdc4e4e444b0e6.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.2 Інструкції зі встановлення сервера</a></figure><figure id="303e3f6f-6f84-4305-b1df-380a2fc0b0c5" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/2%203%20%D0%9D%D0%B0%D0%BB%D0%B0%D1%88%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%BE%D1%82%D0%BE%D1%87%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B8%20303e3f6f6f844305b1df380a2fc0b0c5.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.3 Налаштування оточення розробки</a></figure><h2 id="b82e6f52-4024-4fc0-88b7-4e1a524b963d" class="block-color-blue_background">Модуль 3: Основи плагіна</h2><p id="001724e8-6e91-45e0-8d42-125dd325e876" class="">Ласкаво просимо в Модуль 3, присвячений основам створення плагіна для PocketMine-MP. У цьому модулі ми перейдемо до ключових аспектів, необхідних для старту вашої подорожі у світ розробки плагінів.</p><p id="4d8e6282-908c-4c09-b6ac-f057efb342eb" class="">Цей модуль слугує ключовою основою для вашого повного розуміння структури та роботи плагіна в середовищі PocketMine-MP. Давайте почнемо!</p><figure id="8ebc611b-5bf4-490f-aa37-1babea4c3007" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/3%201%20%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D0%B0%208ebc611b5bf4490faa371babea4c3007.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.1 Структура плагіна</a></figure><figure id="8a5627cd-130f-43f2-acbf-27fea0b16392" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/3%202%20%D0%9E%D0%B3%D0%BB%D1%8F%D0%B4%20%D1%84%D0%B0%D0%B8%CC%86%D0%BB%D1%96%D0%B2%20%D1%96%20%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D0%B2%208a5627cd130f43f2acbf27fea0b16392.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.2 Огляд файлів і каталогів</a></figure><figure id="aed141f5-e252-4a13-b6c9-3cbdcb71eb59" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/3%203%20%D0%9E%D0%BF%D0%B8%D1%81%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D1%96%D1%96%CC%88%20%D0%BA%D0%BE%D0%B6%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%84%D0%B0%D0%B8%CC%86%D0%BB%D1%83%20aed141f5e2524a13b6c93cbdcb71eb59.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.3 Опис функції кожного файлу</a></figure><h2 id="598b4ed8-ec89-43ee-8d01-4178b54fed3e" class="block-color-blue_background">Модуль 4: Події та опрацювання подій</h2><p id="22e4b481-b031-4675-9b52-70cc36b3d8da" class="">У цьому модулі ми вивчимо концепцію подій у PocketMine-MP і навчимося обробляти їх у рамках вашого плагіна.</p><p id="97ec7364-acf4-40c1-899b-f0824976ff48" class="">Ми розглянемо, які події існують, і які можливості вони надають для взаємодії.</p><p id="879e30d0-c983-437b-8b81-70b034c55228" class="">У цьому розділі ми надамо приклади найбільш часто використовуваних подій і розглянемо, як створити обробники подій для реалізації необхідної поведінки вашого плагіна.</p><p id="15b852bd-5c38-40d0-a2a8-eeee2db0fc64" class="">Продовжимо рухатися вперед, відкриваючи для вас нові можливості в розробці плагінів для PocketMine-MP!</p><figure id="21373e70-4c2c-47ef-9f8c-eab1fd26d601" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/4%201%20%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B2%20%D0%BF%D0%BE%D0%B4%D1%96%D1%96%CC%88%2021373e704c2c47ef9f8ceab1fd26d601.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.1 Введення в події</a></figure><figure id="634f48cc-6e58-4a3c-83bc-f5a983c47b90" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/4%202%20%D0%AF%D0%BA%20%D0%BF%D0%BE%D0%B4%D1%96%D1%96%CC%88%20%D0%BF%D1%80%D0%B0%D1%86%D1%8E%D1%8E%D1%82%D1%8C%20%D1%83%20PocketMine-MP%20634f48cc6e584a3c83bcf5a983c47b90.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.2 Як події працюють у PocketMine-MP</a></figure><figure id="6b05be26-7424-4253-80c4-7918ff9e5678" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/4%203%20%D0%9F%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8%20%D0%BF%D0%BE%D0%B4%D1%96%D0%B8%CC%86%206b05be267424425380c47918ff9e5678.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.3 Приклади подій</a></figure><figure id="2ca183f0-69b6-403b-a81e-8f71a5f27da2" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/4%204%20%D0%A1%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%BE%D0%B1%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D0%BA%D1%96%D0%B2%20%D0%BF%D0%BE%D0%B4%D1%96%D0%B8%CC%86%202ca183f069b6403ba81e8f71a5f27da2.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.4 Створення обробників подій</a></figure><h2 id="ce08975b-606a-4622-9860-5649e8ab39fc" class="block-color-blue_background">Модуль 5: Команди</h2><figure id="d8c3f88b-59df-43a6-a6b4-8648261ca16a" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/5%201%20%D0%A0%D0%BE%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B7%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0%D0%BC%D0%B8%20d8c3f88b59df43a6a6b48648261ca16a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.1 Робота з командами</a></figure><figure id="8c2f492d-fac6-48d5-96b9-268bbabaf76c" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/5%202%20%D0%A1%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%82%D0%B0%20%D1%80%D0%B5%D1%94%D1%81%D1%82%D1%80%D0%B0%D1%86%D1%96%D1%8F%20%D1%81%D0%B2%D0%BE%D1%96%CC%88%D1%85%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%208c2f492dfac648d596b9268bbabaf76c.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.2 Створення та реєстрація своїх команд</a></figure><figure id="8ad98ea2-db70-429d-8637-7e272f9641f9" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/5%203%20%D0%9F%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%B8%20%D1%82%D0%B0%20%D0%BE%D0%B1%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%208ad98ea2db70429d86377e272f9641f9.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.3 Параметри та обробка команд</a></figure><h2 id="b9893303-105e-4461-94b1-56e6ecb8e4aa" class="block-color-blue_background">Модуль 6: Робота з базою даних</h2><p id="f8d6b443-83d0-407d-b1fd-1b4a2f9eee1c" class="">У цьому модулі ми занурюємося у світ баз даних та їх інтеграції в PocketMine-MP. Розглянемо ключові аспекти роботи з базами даних, починаючи із загальних принципів і закінчуючи конкретними кроками з підключення, створення таблиць і взаємодії з даними.</p><figure id="c6ac3099-2859-4c8e-99a7-1599036984ac" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/6%201%20%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B2%20%D0%B1%D0%B0%D0%B7%D0%B8%20%D0%B4%D0%B0%D0%BD%D0%B8%D1%85%20c6ac309928594c8e99a71599036984ac.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.1 Введення в бази даних</a></figure><figure id="2eebfc48-b723-43a0-a9c2-2d32e74f8f78" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/6%202%20%D0%9F%D1%96%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B4%D0%BE%20%D0%B1%D0%B0%D0%B7%D0%B8%20%D0%B4%D0%B0%D0%BD%D0%B8%D1%85%202eebfc48b72343a0a9c22d32e74f8f78.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.2 Підключення до бази даних</a></figure><figure id="760a1982-59bb-41ad-8535-cb815c70bda8" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/6%203%20%D0%9F%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%20%D0%B2%D0%B8%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%B1%D0%B0%D0%B7%D0%B8%20%D0%B4%D0%B0%D0%BD%D0%B8%D1%85%20760a198259bb41ad8535cb815c70bda8.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.3 Приклад використання бази даних</a></figure><figure id="03f70586-9f8e-4b3f-8183-a2998899aa0a" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/6%204%20%D0%97%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%82%D0%B0%20%D0%B2%D0%B8%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B4%D0%B0%D0%BD%D0%B8%D1%85%2003f705869f8e4b3f8183a2998899aa0a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.4. Збереження та вилучення даних</a></figure><h2 id="4daacd88-d146-4287-8669-b7cc52c56f7b" class="block-color-blue_background">Модуль 7: Графіка та користувацький інтерфейс</h2><figure id="ea9655e1-697c-4ed8-99fd-dd9c6d3ef16e" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/7%201%20%D0%A0%D0%BE%D0%B1%D0%BE%D1%82%D0%B0%20%D1%96%D0%B7%20%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%D0%BC%D0%B8%20ea9655e1697c4ed899fddd9c6d3ef16e.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.1. Робота із зображеннями</a></figure><figure id="a68942b3-5b89-45a0-af39-71a2e010530f" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/7%202%20%D0%A1%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%BA%D0%BE%D1%80%D0%B8%D1%81%D1%82%D1%83%D0%B2%D0%B0%D1%86%D1%8C%D0%BA%D0%B8%D1%85%20%D1%96%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B8%CC%86%D1%81%D1%96%D0%B2%20a68942b35b8945a0af3971a2e010530f.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.2 Створення користувацьких інтерфейсів</a></figure><figure id="7a7ec443-6706-4827-bb7f-c87617774a82" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/7%203%20%D0%86%D0%BD%D1%82%D0%B5%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%96%20%D0%B5%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%B8%20%D1%82%D0%B0%20%D0%BC%D0%B0%D0%BA%D0%B5%D1%82%D0%B8%207a7ec44367064827bb7fc87617774a82.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.3 Інтерактивні елементи та макети</a></figure><h2 id="4c34cb08-7ebc-4e4e-842f-0efa14e1fd71" class="block-color-blue_background">Модуль 8: Налагодження та тестування</h2><p id="bc048c18-6c6a-4a03-935a-8f63875fa454" class="">У цьому модулі ми розглянемо важливі аспекти налагодження та тестування плагінів для PocketMine-MP. Ефективне налагодження та тестування допоможуть виявити й усунути помилки, а також забезпечать стабільнішу роботу вашого плагіна.</p><figure id="a42c4de7-2f38-4216-9815-850d617d1a9a" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/8%201%20%D0%86%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B8%20%D0%BD%D0%B0%D0%BB%D0%B0%D0%B3%D0%BE%D0%B4%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%20a42c4de72f3842169815850d617d1a9a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.1 Інструменти налагодження</a></figure><figure id="a8822742-0b33-4eed-adc3-da15020f9bbb" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/8%202%20%D0%A2%D0%B5%D1%81%D1%82%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D0%B0%20a88227420b334eedadc3da15020f9bbb.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.2 Тестування плагіна</a></figure><figure id="7d119afa-39b4-49a5-874d-d5756f75c83e" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/8%203%20%D0%A1%D1%82%D0%B2%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%B8%D1%85%20%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D1%96%D1%96%CC%88%D0%B2%20%D1%96%20%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D1%96%D1%80%D0%BA%D0%B0%20%D1%84%D1%83%D0%BD%D0%BA%207d119afa39b449a5874dd5756f75c83e.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.3 Створення тестових сценаріїв і перевірка функціональності</a></figure><h2 id="81956196-e254-4d40-96c8-ee09b36e72ae" class="block-color-blue_background">Модуль 9: Оновлення та підтримка</h2><figure id="3cb6bc63-3ece-4bc5-aaf6-e8fa15322ba3" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/9%201%20%D0%A1%D1%82%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%B7%D0%B0%20%D0%BE%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F%D0%BC%D0%B8%20PocketMine-MP%203cb6bc633ece4bc5aaf6e8fa15322ba3.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.1 Стеження за оновленнями PocketMine-MP</a></figure><figure id="08c24d7d-e747-4eff-944d-e3cb07030018" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/9%202%20%D0%9F%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BD%D1%96%D1%85%20%D0%B2%D0%B5%D1%80%D1%81%D1%96%D0%B8%CC%86%20API%2008c24d7de7474eff944de3cb07030018.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.2 Підтримка останніх версій API</a></figure><figure id="f521709f-e125-4348-8e1b-d33374eb451c" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/9%203%20%D0%9E%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%B4%D0%BE%D0%B4%D0%B0%D1%82%D0%BA%D0%BE%D0%B2%D0%BE%D1%96%CC%88%20%D0%BF%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D0%BA%D0%B8%20f521709fe12543488e1bd33374eb451c.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.3 Отримання додаткової підтримки</a></figure><h2 id="ebcbf9f6-ed0c-403f-96bd-3c1506ee4a12" class="block-color-blue_background">Модуль 10: Публікація плагіна</h2><figure id="a958d4ef-959d-489e-bdcb-3f0a4a1d33f1" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/10%201%20%D0%9F%D1%96%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D0%B0%20%D0%B4%D0%BE%20%D0%BF%D1%83%D0%B1%D0%BB%D1%96%D0%BA%D0%B0%D1%86%D1%96%D1%96%CC%88%20a958d4ef959d489ebdcb3f0a4a1d33f1.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.1 Підготовка плагіна до публікації</a></figure><figure id="7747b894-247c-4e09-a576-7817247af0ef" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/10%202%20%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%8F,%20%D0%BB%D1%96%D1%86%D0%B5%D0%BD%D0%B7%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D1%82%D0%B0%20%D0%BF%D0%B0%D0%BA%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%207747b894247c4e09a5767817247af0ef.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.2 Документація, ліцензування та пакування плагіна</a></figure><figure id="d8823be5-1490-455a-955e-acc8f2274489" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/10%203%20%D0%9F%D1%83%D0%B1%D0%BB%D1%96%D0%BA%D0%B0%D1%86%D1%96%D1%8F%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D0%B0%20d8823be51490455a955eacc8f2274489.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.3. Публікація плагіна</a></figure><h2 id="0390a51c-84df-4250-b659-86afc443a32d" class="block-color-blue_background">Модуль 11: Висновки</h2><figure id="27914b71-67e4-4ae0-bc07-ac16716d4300" class="link-to-page"><a href="PocketMine%20-%20%D0%A0%D0%BE%D0%B7%D1%80%D0%BE%D0%B1%D0%BA%D0%B0%20%D0%BF%D0%BB%D0%B0%D0%B3%D1%96%D0%BD%D1%96%D0%B2%205c3b517ed6144704bda568e432044b13/11%201%20%D0%9F%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B5%D0%BD%D0%BD%D1%8F%20%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%B8%D1%85%20%D0%BA%D0%BE%D0%BD%D1%86%D0%B5%D0%BF%D1%86%D1%96%D0%B8%CC%86%2027914b7167e44ae0bc07ac16716d4300.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>11.1 Повторення основних концепцій</a></figure><hr id="cbe180bd-48c1-4840-b664-4ec877ed30f8"/><p id="ef8bbe33-73d9-4a17-8ba0-b470f2902887" class=""><em>При створенні документації використовувалися матеріали:</em></p><p id="b9d1fd0d-0efa-40a9-a654-bc2ff8df42a7" class="block-color-blue">pmmp.io, openai.com, pocketmine.net, github.com, pocketmine.ru, pocketmineschool.netlify.app, youtube.com</p><p id="5eab9d8c-7455-47f4-ad4e-1c7810201451" class="block-color-blue_background"><mark class="highlight-blue_background"><strong>© loopbled, 2023</strong></mark></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

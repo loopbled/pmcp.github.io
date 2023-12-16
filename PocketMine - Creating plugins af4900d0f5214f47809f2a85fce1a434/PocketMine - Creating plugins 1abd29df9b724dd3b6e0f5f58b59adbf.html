@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PocketMine - Creating plugins</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1abd29df-9b72-4dd3-b6e0-f5f58b59adbf" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/solid_blue.png" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://play-lh.googleusercontent.com/KQh_7SQ_OaVHuy0khwIFmW-gU84AY3rWsd6oqgTWvLMbHvyiws7MG08NNiJ7D_SzDvU"/></div><h1 class="page-title">PocketMine - Creating plugins</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="35f0862b-a1f7-46bc-819c-f4f7c21c95d0"><div style="font-size:1.5em"><span class="icon">🇺🇦</span></div><div style="width:100%"><strong>SUPPORT UKRAINE DURING THIS PIVOTAL MOMENT. </strong><a href="https://u24.gov.ua/"><strong>DONATE NOW</strong></a></div></figure><h2 id="0d0c4c3c-707a-4d07-afab-8aae7578b05d" class="block-color-blue_background">Module 1: Introduction to PocketMine-MP</h2><p id="3cdc50a9-0dd8-4751-a97f-7946d038b3c2" class="">Welcome to ✌️ the exciting world of plugin development for PocketMine-MP! This module will provide you with the key knowledge and understanding of the basic concepts needed to successfully create plugins on the PocketMine-MP platform for Minecraft: Bedrock Edition.</p><p id="671badaf-4d0d-49f6-8fbd-b29ceb6ba975" class="">In the first section, we&#x27;ll dive into the basics of PocketMine-MP, exploring its key goals and features. After that, we&#x27;ll look at why plugin creation is an important aspect of enhancing server functionality and how successful plugins can improve the user&#x27;s gaming experience.</p><p id="0591f842-66d2-4334-a82a-fccdecf8766e" class="">Ready to begin your exciting journey into the world of development for PocketMine-MP? Let&#x27;s start with an introduction and the basics!</p><figure id="74eeca0b-d370-4d59-bead-f4252e2d75bb" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/1%201%20What%20is%20PocketMine-MP%2074eeca0bd3704d59beadf4252e2d75bb.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.1 What is PocketMine-MP</a></figure><figure id="9cb7a2bc-6046-4139-bc18-31e935363b66" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/1%202%20Basic%20concepts%20and%20objectives%20of%20the%20platform%209cb7a2bc60464139bc1831e935363b66.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.2 Basic concepts and objectives of the platform</a></figure><figure id="1f1e0bc3-1d3d-4e31-8240-818de2e834fa" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/1%203%20Why%20creating%20plug-ins%20for%20PocketMine-MP%20is%20imp%201f1e0bc31d3d4e318240818de2e834fa.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>1.3 Why creating plug-ins for PocketMine-MP is important</a></figure><h2 id="e269c811-9991-4f7f-ac67-281187086f82" class="block-color-blue_background">Module 2: Preparing for Development</h2><p id="abd2f531-58c3-44a3-a5e6-5ea867761f8d" class="">In this module we will prepare you for the exciting world of plugin development for PocketMine-MP. You will learn how to install a server, set up a development environment and learn the basics of plugin structure. This module will provide you with the tools and knowledge you need to create in the world of PocketMine-MP.</p><p id="27c0b628-2dbc-4027-a049-9a1f5ac14b29" class="">Get ready for an exciting immersion into the process of developing and creating unique plugins for PocketMine-MP!</p><figure id="2bad4d16-4b2c-4622-a36f-4abae88eb52a" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/2%201%20Installing%20PocketMine-MP%202bad4d164b2c4622a36f4abae88eb52a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.1 Installing PocketMine-MP</a></figure><figure id="2928b85b-ace9-4b24-9d2e-88de407b11a8" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/2%202%20Server%20installation%20instructions%202928b85bace94b249d2e88de407b11a8.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.2 Server installation instructions</a></figure><figure id="8a2a7be0-3310-49e4-a2e2-d4fd3851e98b" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/2%203%20Setting%20up%20the%20development%20environment%208a2a7be0331049e4a2e2d4fd3851e98b.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>2.3 Setting up the development environment</a></figure><h2 id="a5d631eb-05ca-4916-b2d2-83e949bd614e" class="block-color-blue_background">Module 3: Plugin Basics</h2><p id="6c8f5e7d-0014-4bb4-8ab5-a6a1711bee32" class="">Welcome to Module 3, dedicated to the basics of creating a plugin for PocketMine-MP. In this module, we will get down to the key aspects necessary to start your journey into the world of plugin development.</p><p id="212a8c42-6f73-44f2-9b10-5e5e3e307b35" class="">This module serves as a key foundation for your complete understanding of the structure and operation of a plugin in the PocketMine-MP environment. Let&#x27;s get started!</p><figure id="999ca208-bc43-4388-b2ec-5a39d5464f68" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/3%201%20Plugin%20structure%20999ca208bc434388b2ec5a39d5464f68.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.1 Plugin structure</a></figure><figure id="4ad285e1-13ea-47c3-a209-bd4c8888f7b4" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/3%202%20Overview%20of%20files%20and%20directories%204ad285e113ea47c3a209bd4c8888f7b4.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.2 Overview of files and directories</a></figure><figure id="25462b4d-faf5-4d88-a63a-b89a337fef5f" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/3%203%20Description%20of%20the%20function%20of%20each%20file%2025462b4dfaf54d88a63ab89a337fef5f.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>3.3 Description of the function of each file</a></figure><h2 id="f4bec325-a17a-4957-9628-13eaa0f8589d" class="block-color-blue_background">Module 4: Events and Event Handling</h2><p id="7b92bde1-c705-45e7-aedb-3ac786195cf7" class="">In this module, we will explore the concept of events in PocketMine-MP and learn how to handle them within your plugin.</p><p id="3075f681-24e6-409b-baaa-99703e1424a6" class="">We will look at what events exist and the possibilities they provide for interaction.</p><p id="558fb3f4-05d9-4a78-bf1b-f786cb906fea" class="">In this section, we will provide examples of the most commonly used events and look at how to create event handlers to implement the desired behavior of your plugin.</p><p id="b3a4671b-075e-47b8-b422-a9026586afa7" class="">Let&#x27;s continue moving forward, opening for you new possibilities in plugin development for PocketMine-MP!</p><figure id="8a53fb79-a0e6-4e58-94ef-0712113eaf3e" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/4%201%20Introduction%20to%20events%208a53fb79a0e64e5894ef0712113eaf3e.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.1 Introduction to events</a></figure><figure id="8bf2d4e8-c69b-4c7e-88b4-823be7511524" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/4%202%20%D0%9A%D0%B0%D0%BA%20%D1%81%D0%BE%D0%B1%D1%8B%D1%82%D0%B8%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%8E%D1%82%20%D0%B2%20PocketMine-MP%208bf2d4e8c69b4c7e88b4823be7511524.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.2. Как события работают в PocketMine-MP</a></figure><figure id="d6830efc-b877-43b7-a7f2-49e992190e5f" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/4%203%20Examples%20of%20events%20d6830efcb87743b7a7f249e992190e5f.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.3 Examples of events</a></figure><figure id="17dc8c91-26cc-421a-a92e-18af63d454d3" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/4%204%20Creating%20event%20handlers%2017dc8c9126cc421aa92e18af63d454d3.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>4.4 Creating event handlers</a></figure><h2 id="8a20d22e-ee55-4544-a4cb-9240ecf99e2d" class="block-color-blue_background">Module 5: Commands</h2><figure id="2520d48f-8392-443d-a74b-37b7d1b09cf4" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/5%201%20Working%20with%20teams%202520d48f8392443da74b37b7d1b09cf4.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.1 Working with teams</a></figure><figure id="bfc2ed8d-b325-434a-a742-cb858c833d31" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/5%202%20Creating%20and%20registering%20their%20teams%20bfc2ed8db325434aa742cb858c833d31.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.2 Creating and registering their teams</a></figure><figure id="4f232942-c86d-4fe2-b877-85d938320767" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/5%203%20Parameters%20and%20command%20processing%204f232942c86d4fe2b87785d938320767.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>5.3 Parameters and command processing</a></figure><h2 id="aa61f5d7-5af0-4fd5-b929-485c7183d72f" class="block-color-blue_background">Module 6: Working with the database</h2><p id="ad49294a-306a-4cac-9726-abc76019a954" class="">In this module we dive into the world of databases and their integration in PocketMine-MP. We will consider key aspects of working with databases, starting from general principles and finishing with specific steps on connection, creating tables and interacting with data.</p><figure id="3d5e787a-6245-4bcd-bac6-dc2f2b836148" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/6%201%20An%20introduction%20to%20databases%203d5e787a62454bcdbac6dc2f2b836148.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.1 An introduction to databases</a></figure><figure id="76a26872-bf13-46b2-9a0b-e03d7a26c7e0" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/6%202%20Connecting%20to%20the%20database%2076a26872bf1346b29a0be03d7a26c7e0.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.2 Connecting to the database</a></figure><figure id="6aacf547-d3e1-4205-b91e-339844429c16" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/6%203%20Example%20of%20using%20a%20database%206aacf547d3e14205b91e339844429c16.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.3 Example of using a database</a></figure><figure id="0d2817b8-5d50-4cd0-a4c0-c70ea843f8b0" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/6%204%20Data%20storage%20and%20retrieval%200d2817b85d504cd0a4c0c70ea843f8b0.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>6.4 Data storage and retrieval</a></figure><h2 id="0cd865ba-c9eb-4f5e-b948-7e1872b827b5" class="block-color-blue_background">Module 7: Graphics and User Interface</h2><figure id="48e78b10-8896-4545-8119-8e1526d66b6a" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/7%201%20Working%20with%20images%2048e78b108896454581198e1526d66b6a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.1 Working with images</a></figure><figure id="ba1198d3-f866-41d0-bf47-d901b8f0f6c0" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/7%202%20Creating%20user%20interfaces%20ba1198d3f86641d0bf47d901b8f0f6c0.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.2 Creating user interfaces</a></figure><figure id="f3e4c6e2-b3bd-4d16-b287-2c5da9102a55" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/7%203%20Interactive%20elements%20and%20layouts%20f3e4c6e2b3bd4d16b2872c5da9102a55.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>7.3 Interactive elements and layouts</a></figure><h2 id="1acfe7b6-9bcf-45a6-bbbb-d1678f21a4d7" class="block-color-blue_background">Module 8: Debugging and Testing</h2><p id="73492140-f588-4dbc-ba14-0caf5e43cfda" class="">In this module we will consider important aspects of debugging and testing plugins for PocketMine-MP. Effective debugging and testing will help to detect and eliminate errors and provide more stable work of your plugin.</p><figure id="cca3e05f-d61f-4c5d-830c-c2dad02ad306" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/8%201%20Debugging%20tools%20cca3e05fd61f4c5d830cc2dad02ad306.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.1 Debugging tools</a></figure><figure id="52e3ab37-1c29-4d5b-b4b6-8a8bb570813b" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/8%202%20Testing%20the%20plugin%2052e3ab371c294d5bb4b68a8bb570813b.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.2 Testing the plugin</a></figure><figure id="662a4e5f-16c5-4c8b-bafc-5dfd1f176bdd" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/8%203%20Create%20test%20scenarios%20and%20verify%20functionality%20662a4e5f16c54c8bbafc5dfd1f176bdd.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>8.3 Create test scenarios and verify functionality</a></figure><h2 id="682a1be1-17b3-4e79-a72e-830373098dc9" class="block-color-blue_background">Module 9: Updates and Support</h2><figure id="1ba089b5-62b8-436d-bd8c-fa8be47a2184" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/9%201%20Tracking%20PocketMine-MP%20updates%201ba089b562b8436dbd8cfa8be47a2184.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.1 Tracking PocketMine-MP updates</a></figure><figure id="206a4f8d-716d-4225-b719-476e2aea9e45" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/9%202%20Support%20of%20the%20latest%20API%20versions%20206a4f8d716d4225b719476e2aea9e45.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.2 Support of the latest API versions</a></figure><figure id="33966787-3439-4d75-9271-789da5a6b5fe" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/9%203%20Receiving%20additional%20support%203396678734394d759271789da5a6b5fe.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>9.3 Receiving additional support</a></figure><h2 id="dc73ce86-7f5c-4359-8a14-85c83011d035" class="block-color-blue_background">Module 10: Publishing a plugin</h2><figure id="e8fe23cc-9bb5-497c-91a3-721187cde59d" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/10%201%20Preparing%20the%20plug-in%20for%20publication%20e8fe23cc9bb5497c91a3721187cde59d.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.1 Preparing the plug-in for publication</a></figure><figure id="e050437a-c7ce-4e38-8904-76d96f4c785a" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/10%202%20Documentation,%20licensing%20and%20packaging%20of%20the%20e050437ac7ce4e38890476d96f4c785a.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.2 Documentation, licensing and packaging of the plugin</a></figure><figure id="03e6166a-d65e-4e74-b5e1-48e32f7ae624" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/10%203%20Publishing%20a%20plugin%2003e6166ad65e4e74b5e148e32f7ae624.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>10.3 Publishing a plugin</a></figure><h2 id="82d1e3bf-029c-417e-9e27-99b36e46e65e" class="block-color-blue_background">Module 11: The End</h2><figure id="84044569-ca27-4148-99ff-7fc775f93235" class="link-to-page"><a href="PocketMine%20-%20Creating%20plugins%201abd29df9b724dd3b6e0f5f58b59adbf/11%201%20Repetition%20of%20basic%20concepts%2084044569ca27414899ff7fc775f93235.html"><img class="icon" src="https://www.notion.so/icons/book-closed_blue.svg"/>11.1 Repetition of basic concepts</a></figure><hr id="391fe4db-03be-4d28-8d86-6f7c41602b5a"/><p id="ee136ccc-7c07-4dae-b931-bdd75178db38" class=""><em>Materials used in the creation of the documentation were:</em></p><p id="09b1e143-a582-45c3-a09c-4efd67dab12a" class="block-color-blue">pmmp.io, openai.com, pocketmine.net, github.com, pocketmine.ru, pocketmineschool.netlify.app, youtube.com</p><p id="f29e895a-5411-467b-8988-11f896437e52" class="block-color-blue_background"><mark class="highlight-blue_background"><strong>© loopbled, 2023</strong></mark></p><p id="df3b1b31-73ef-4f33-a479-83e064cd54a6" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
